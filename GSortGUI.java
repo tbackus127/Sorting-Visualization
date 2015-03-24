@@ -78,7 +78,7 @@ public class GSortGUI {
 		// Field: Array Size
 		this.arraySize = new JTextField(4);
 		this.arraySize.setText(DEFAULT_ARRAY_SIZE);
-		this.arraySize.setToolTipText("Specifies how many values will be sorted (1-1024).");
+		this.arraySize.setToolTipText("Specifies how many values will be sorted (1-" + (width - 16) + ").");
 		guiPanel.add(this.arraySize);
 		
 		// Label: Distr
