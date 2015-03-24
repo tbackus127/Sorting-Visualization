@@ -44,6 +44,8 @@ public class GSortGUI {
     private JButton buttonSort;
     
     private SortingWindow sortWin;
+	
+	private int maxArraySize;
 				     
     /**
      * Default constructor. Will create a new JPanel toolbar at the top of the main window, as well as an empty space for the sorting window.
@@ -55,100 +57,103 @@ public class GSortGUI {
     public GSortGUI(final int width, final int height, final int topbarHeight, final JFrame frame) {
 	
 	
-	//System.out.println(":: Frame (GUI Class) ::\n" + frame);
-	
-	guiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	guiPanel.setSize(width, topbarHeight);
-	
-	// Label: Sort:
-	this.labelSelect = new JLabel("Sort:");
-	guiPanel.add(this.labelSelect);
-	
-	// Dropdown: Sort select
-	this.sortSelect = new JComboBox(this.sortOptions);
-	this.sortSelect.setToolTipText("Selects which sorting algorithm to use.");
-	guiPanel.add(this.sortSelect);
-	
-	// Label: Size
-	this.labelArraySize = new JLabel("Array size:");
-	guiPanel.add(this.labelArraySize);
-	
-	// Field: Array Size
-	this.arraySize = new JTextField(4);
-	this.arraySize.setText(DEFAULT_ARRAY_SIZE);
-	this.arraySize.setToolTipText("Specifies how many values will be sorted (1-1024).");
-	guiPanel.add(this.arraySize);
-	
-	// Label: Distr
-	this.labelDistr = new JLabel("Distribution:");
-	guiPanel.add(this.labelDistr);
-	
-	// Dropdown: Distribution type
-	this.distrSelect = new JComboBox(this.distrOptions);
-	this.distrSelect.setToolTipText("Selects how the array is initially arranged.");
-	guiPanel.add(this.distrSelect);
-	
-	// Label: Speed
-	this.labelSpeeds = new JLabel("Sort speed:");
-	guiPanel.add(this.labelSpeeds);
-	
-	// Dropdown: Speed
-	this.speedSelect = new JComboBox(this.speedOptions);
-	this.speedSelect.setSelectedItem("Normal");
-	this.speedSelect.setToolTipText("Selects the speed at which the algorithm will execute:\n - Very slow: 100ms\n - Slow: 75ms\n - Normal: 40ms\n - Fast: 20ms\n - Very fast: 10ms");
-	guiPanel.add(this.speedSelect);
-	
-	// Label for spacing
-	this.labelSpacing = new JLabel(" ");
-	guiPanel.add(this.labelSpacing);
-	
-	// Build button
-	this.buttonBuild = new JButton("Build");
-	this.buttonBuild.setToolTipText("Creates the array to be sorted and renders it as a series of bars at a height corresponding to their value.");
-	this.buttonBuild.addActionListener(new ActionListener() {
-	    
-	    // On click:
-	    public void actionPerformed(ActionEvent e) {
+		//System.out.println(":: Frame (GUI Class) ::\n" + frame);
 		
-		// There must be at least two digits in the array size field.
-		if(arraySize.getText().length() >= 2) {
-		    
-		    // If there's already a sorting window, remove it
-		    if(sortWin != null)
-			frame.remove(sortWin);
-		    
-		    // Create a new sorting window with the indicated parameters, and add it to the main window. (w, h, sortType, arraySize, distribution)
-		    sortWin = new SortingWindow(width, height - topbarHeight, 0, Integer.parseInt(arraySize.getText()), 0);
-		    frame.add(sortWin);
-		    frame.validate();
-		    sortWin.validate();
-		    sortWin.repaint();
-		    
-		    // Enable the sort button.
-		    buttonSort.setEnabled(true);
-		    
-		} else {
-		    buttonSort.setEnabled(false);
-		}
+		guiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		guiPanel.setSize(width, topbarHeight);
 		
-	    }
-	});
-	guiPanel.add(this.buttonBuild);
-	
-	// Sort button
-	this.buttonSort = new JButton("Sort");
-	this.buttonSort.setToolTipText("Begins the sorting process on the array. ** Build must be clicked before sorting! **");
-	this.buttonSort.setEnabled(false);
-	this.buttonSort.addActionListener(new ActionListener() {
-	    
-	    // On click:
-	    public void actionPerformed(ActionEvent e)  {
+		// Label: Sort:
+		this.labelSelect = new JLabel("Sort:");
+		guiPanel.add(this.labelSelect);
 		
-		// Perform the indicated sortint algorithm.
-		executeSort();
-	    }
-	});
-	guiPanel.add(this.buttonSort);
+		// Dropdown: Sort select
+		this.sortSelect = new JComboBox<String>(this.sortOptions);
+		this.sortSelect.setToolTipText("Selects which sorting algorithm to use.");
+		guiPanel.add(this.sortSelect);
+		
+		// Label: Size
+		this.labelArraySize = new JLabel("Array size:");
+		guiPanel.add(this.labelArraySize);
+		
+		// Field: Array Size
+		this.arraySize = new JTextField(4);
+		this.arraySize.setText(DEFAULT_ARRAY_SIZE);
+		this.arraySize.setToolTipText("Specifies how many values will be sorted (1-1024).");
+		guiPanel.add(this.arraySize);
+		
+		// Label: Distr
+		this.labelDistr = new JLabel("Distribution:");
+		guiPanel.add(this.labelDistr);
+		
+		// Dropdown: Distribution type
+		this.distrSelect = new JComboBox<String>(this.distrOptions);
+		this.distrSelect.setToolTipText("Selects how the array is initially arranged.");
+		guiPanel.add(this.distrSelect);
+		
+		// Label: Speed
+		this.labelSpeeds = new JLabel("Sort speed:");
+		guiPanel.add(this.labelSpeeds);
+		
+		// Dropdown: Speed
+		this.speedSelect = new JComboBox<String>(this.speedOptions);
+		this.speedSelect.setSelectedItem("Normal");
+		this.speedSelect.setToolTipText("Selects the speed at which the algorithm will execute:\n - Very slow: 100ms\n - Slow: 75ms\n - Normal: 40ms\n - Fast: 20ms\n - Very fast: 10ms");
+		guiPanel.add(this.speedSelect);
+		
+		// Label for spacing
+		this.labelSpacing = new JLabel(" ");
+		guiPanel.add(this.labelSpacing);
+		
+		// Build button
+		this.buttonBuild = new JButton("Build");
+		this.buttonBuild.setToolTipText("Creates the array to be sorted and renders it as a series of bars at a height corresponding to their value.");
+		this.buttonBuild.addActionListener(new ActionListener() {
+			
+			// On click:
+			public void actionPerformed(ActionEvent e) {
+			
+				int desiredArraySize = Integer.parseInt(arraySize.getText());
+				int distr = distrSelect.getSelectedIndex();
+			
+				// Array Size must be between 8 and <area size> pixels.
+				if(desiredArraySize >= 8 && desiredArraySize <= width - 16) {
+					
+					// If there's already a sorting window, remove it
+					if(sortWin != null)
+						frame.remove(sortWin);
+					
+					// Create a new sorting window with the indicated parameters, and add it to the main window. (w, h, sortType, arraySize, distribution)
+					sortWin = new SortingWindow(width, height - topbarHeight, 0, desiredArraySize, distr);
+					frame.add(sortWin);
+					frame.validate();
+					sortWin.validate();
+					sortWin.repaint();
+					
+					// Enable the sort button.
+					buttonSort.setEnabled(true);
+					
+				} else {
+					buttonSort.setEnabled(false);
+				}
+			
+			}
+		});
+		guiPanel.add(this.buttonBuild);
+		
+		// Sort button
+		this.buttonSort = new JButton("Sort");
+		this.buttonSort.setToolTipText("Begins the sorting process on the array. ** Build must be clicked before sorting! **");
+		this.buttonSort.setEnabled(false);
+		this.buttonSort.addActionListener(new ActionListener() {
+			
+			// On click:
+			public void actionPerformed(ActionEvent e)  {
+				
+				// Perform the indicated sortint algorithm.
+				executeSort();
+			}
+		});
+		guiPanel.add(this.buttonSort);
     }
     
     /**

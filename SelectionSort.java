@@ -1,3 +1,4 @@
+/*
 public class SelectionSort extends GSortMember implements GSort {
     
     public void sort() {
@@ -13,5 +14,5 @@ public class SelectionSort extends GSortMember implements GSort {
 	    }
 	}
 	
-    }
 }
+*/

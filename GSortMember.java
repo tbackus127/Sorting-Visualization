@@ -5,17 +5,17 @@ public abstract class GSortMember {
 	"SelectionSort.java", "Selection Sort"
 	//"InsertionSort.java", "Insertion Sort"
 	//"DPQuickSort.java", "Quick Sort (dual-pivot)"
-    }
+    };
     
     protected ArrayMemberList array;
     
     public GSortMember(ArrayMemberList arr) {
-	this.array = arr;
+		this.array = arr;
     }
     
-    public void sort(ArrayMemberList array);
+    public abstract void sort(ArrayMemberList array);
     
     public void swap() {
-	
+		System.out.println("swap");
     }
 }

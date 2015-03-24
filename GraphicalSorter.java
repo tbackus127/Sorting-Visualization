@@ -35,11 +35,10 @@ public class GraphicalSorter {
 	
 	// Finalize the window
 	frame.setLocationRelativeTo(null);
-	frame.setResizable(false);
+	// frame.setResizable(false);
 	frame.setVisible(true);
     }
 }
-
 
 
 /*
