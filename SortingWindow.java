@@ -120,9 +120,9 @@ public class SortingWindow extends JPanel {
 			
 			int value = this.arr[i].getValue();
 			int x = (int)((dx * i) + HORIZONTAL_MARGIN);
-			int y = (int)(areaHeight - (value * scale) + TOP_MARGIN);
+			int y = (int)(areaHeight - (value * scale) + TOP_MARGIN * 2);
 			int w = (int)(Math.max(1.0, (double)(dx - 1.0)));
-			int h = (int)(areaHeight - y);
+			int h = (int)((double)value * scale);
 			
 			// Origin at top-left
 			g.fillRect(x, y, w, h);
