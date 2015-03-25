@@ -103,7 +103,7 @@ public class SortingWindow extends JPanel {
 		
 		// Width in px of the drawing area
 		int areaWidth = this.screenWidth - (HORIZONTAL_MARGIN * 4);
-		int areaHeight = this.screenHeight - TOP_MARGIN * 2;
+		int areaHeight = this.screenHeight - (TOP_MARGIN * 2);
 		
 		// How many pixels between bar origins (remove border if we must)
 		double dx = (areaWidth) / (double)n;
@@ -120,7 +120,7 @@ public class SortingWindow extends JPanel {
 			
 			int value = this.arr[i].getValue();
 			int x = (int)((dx * i) + HORIZONTAL_MARGIN);
-			int y = (int)(areaHeight - (value * scale) + TOP_MARGIN * 2);
+			int y = (int)(areaHeight - (value * scale) + TOP_MARGIN * 2 + 1);
 			int w = (int)(Math.max(1.0, (double)(dx - 1.0)));
 			int h = (int)((double)value * scale);
 			
