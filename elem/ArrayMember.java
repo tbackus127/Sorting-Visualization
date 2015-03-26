@@ -6,6 +6,8 @@
  * This class contains the values of each array member, and any metadata the program may need.
  */
 
+package elem;
+ 
 public class ArrayMember {
 
     private int value;		// The number value of the ArrayMember (for comparisons)

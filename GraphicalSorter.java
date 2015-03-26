@@ -11,6 +11,8 @@
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
+import gui.GSortGUI;
+
 public class GraphicalSorter {
     
     public static final int WIDTH = 1280;		// The width of the window

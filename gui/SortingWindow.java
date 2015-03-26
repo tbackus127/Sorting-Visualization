@@ -1,7 +1,11 @@
+package gui;
+
 import java.util.Random;
 import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.JPanel;
+
+import elem.ArrayMember;
 
 public class SortingWindow extends JPanel {
     

@@ -1,4 +1,9 @@
-// import java.awt.Graphics;
+package gui;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.FileNotFoundException;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -11,9 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import gui.SortingWindow;
+import elem.ArrayMember;
+
 public class GSortGUI {
     
     private static final String DEFAULT_ARRAY_SIZE = "256";
+	private static final File SORT_DIR = new File("./sorts/");
     
     // Toolbar panel
     private JPanel guiPanel;
@@ -21,9 +30,9 @@ public class GSortGUI {
     // Label and selection dropdown box
     private JLabel labelSelect;
     private JComboBox sortSelect;
-    private String[] sortOptions = {"Selection Sort", "Insertion Sort", "Bubble Sort", "Shell Sort", "Heap Sort", "Comb Sort", "Bitonic Sort",
-				     "Merge Sort", "Quick Sort", "Quick Sort (2x Pivot)", "Tim Sort", "Stooge Sort", "Bogo Sort"};
-				     
+    private String[] sortOptions;
+	private File[] sortFiles;
+					
     // Label and array size field
     private JLabel labelArraySize;
     private JTextField arraySize;
@@ -57,8 +66,7 @@ public class GSortGUI {
      */
     public GSortGUI(final int width, final int height, final int topbarHeight, final JFrame frame) {
 	
-	
-		//System.out.println(":: Frame (GUI Class) ::\n" + frame);
+		this.sortOptions = getAvailableSorts();
 		
 		guiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		guiPanel.setSize(width, topbarHeight);
@@ -163,6 +171,9 @@ public class GSortGUI {
      */
     private void executeSort() {
 		int sortID = sortSelect.getSelectedIndex();
+		int sortDelay = 100;	// ms
+		
+		
 		
 /*		
 		arr[20].setValue(50);
@@ -171,6 +182,29 @@ public class GSortGUI {
 */		
     }
     
+	private String[] getAvailableSorts() {
+		File dir = SORT_DIR;
+		File[] sortFiles = dir.listFiles(new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".class");
+			}
+		});
+		
+		String[] result = new String[sortFiles.length];
+		for(int i = 0; i < sortFiles.length; i++){
+			String fileName = sortFiles[i].getName();
+			int pos = fileName.lastIndexOf(".");
+			result[i] = fileName.substring(0, pos);
+		}
+		
+		
+		return result;
+	}
+	
+	// private boolean isValidSort(File f) {
+		
+	// }
+	
     /**
      * Gets a reference to the toolbar JPanel.
      * @return the reference to the toolbar.
