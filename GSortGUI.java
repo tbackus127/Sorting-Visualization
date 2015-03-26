@@ -31,7 +31,7 @@ public class GSortGUI {
     // Label and array distribution dropdown box
     private JLabel labelDistr;
     private JComboBox distrSelect;
-    private String[] distrOptions = {"Random", "Ascending", "Nearly Sorted", "Descending", "Equal N", "Equal N-2", "Pyramid", "Cubic"};
+    private String[] distrOptions = {"Random", "Ascending", "Nearly Sorted", "Descending", "Equal N-2", "Pyramid", "Cubic"};
     
     // Label and sorting speed dropdown box
     private JLabel labelSpeeds;
@@ -44,6 +44,7 @@ public class GSortGUI {
     private JButton buttonSort;
     
     private SortingWindow sortWin;
+	private ArrayMember[] arr;
 	
 	private int maxArraySize;
 				     
@@ -78,7 +79,7 @@ public class GSortGUI {
 		// Field: Array Size
 		this.arraySize = new JTextField(4);
 		this.arraySize.setText(DEFAULT_ARRAY_SIZE);
-		this.arraySize.setToolTipText("Specifies how many values will be sorted (1-" + (width - 16) + ").");
+		this.arraySize.setToolTipText("Specifies how many values will be sorted (8-" + (width - 16) + ").");
 		guiPanel.add(this.arraySize);
 		
 		// Label: Distr
@@ -131,6 +132,7 @@ public class GSortGUI {
 					
 					// Enable the sort button.
 					buttonSort.setEnabled(true);
+					arr = sortWin.getArray();
 					
 				} else {
 					buttonSort.setEnabled(false);
@@ -160,7 +162,13 @@ public class GSortGUI {
      * Performs the selected sort from JComboBox sortSelect.
      */
     private void executeSort() {
-	int sortID = sortSelect.getSelectedIndex();
+		int sortID = sortSelect.getSelectedIndex();
+		
+/*		
+		arr[20].setValue(50);
+		sortWin.repaint();
+		new Color(r, g, b);
+*/		
     }
     
     /**
@@ -168,13 +176,13 @@ public class GSortGUI {
      * @return the reference to the toolbar.
      */
     public JPanel getGUIPanel() {
-	return this.guiPanel;
+		return this.guiPanel;
     }
 }
 
 
 
-/*
+/* SCRATCH PAD **
 
 jcomponent.setToolTipText("");
 

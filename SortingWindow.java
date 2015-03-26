@@ -45,7 +45,13 @@ public class SortingWindow extends JPanel {
 		this.distribution = distr;
 		buildArray(arraySize, distr);
 	}
-		
+	
+	
+	/**
+     * Builds the array with the specified metrics.
+	 * @param size the number of elements in the array (8-1264)
+	 * @param distr the distribution of the elements (see String[] distrOptions in GSortGUI.java)
+     */
 	private void buildArray(int size, int distr) {
 	
 		this.arr = new ArrayMember[size];
@@ -93,6 +99,10 @@ public class SortingWindow extends JPanel {
 		}
     }
     
+	/**
+     * Paints the sorting window.
+	 * @param g Graphics object
+     */
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -101,34 +111,49 @@ public class SortingWindow extends JPanel {
 		// n = array length
 		int n = this.arr.length;
 		
-		// Width in px of the drawing area
-		int areaWidth = this.screenWidth - (HORIZONTAL_MARGIN * 4);
+		// Width/height in pixels of the drawing area
+		int areaWidth = this.screenWidth - (HORIZONTAL_MARGIN * 2);
 		int areaHeight = this.screenHeight - (TOP_MARGIN * 2);
 		
-		// How many pixels between bar origins (remove border if we must)
+		// How many pixels between bar origins
 		double dx = (areaWidth) / (double)n;
 		
 		// Scale multiplier for extending the array to the full height
+		// getMaxValue() must be casted to a double for precision.
 		double scale = areaHeight / (double)getMaxValue(this.arr);
 		
-		// g.setColor(Color.RED);
-		// g.fillRect(248, 248, 248, 248);
-		g.setColor(Color.WHITE);
-		
-		// x, y, w, h
 		for(int i = 0; i < arr.length; i++) {
 			
 			int value = this.arr[i].getValue();
+			
+			// Horizontal location of the bar's origin (draws from top-left)
+			// Start with the side margin as an offset, and multiply bar width by which bar we are drawing
 			int x = (int)((dx * i) + HORIZONTAL_MARGIN);
+			
+			// Vertical location of the bar's origin
+			// Offset by the top margin, scale the bar's height, and subtract this from our area.
 			int y = (int)(areaHeight - (value * scale) + TOP_MARGIN * 2 + 1);
+			
+			// How wide to make the bar
+			// Subtract 1 from the bar's width to get a "border" between bars.
+			// However, we can't let this reach 0px, or no bars will be drawn, so use 1 if the calculated value is less than 1.
 			int w = (int)(Math.max(1.0, (double)(dx - 1.0)));
+			
+			// How tall to make the bar
 			int h = (int)((double)value * scale);
 			
-			// Origin at top-left
+			// Draw the rectangle with x/y/w/h specified
 			g.fillRect(x, y, w, h);
 		} 	
     }
 	
+	/**
+     * Gets the highest value of the passed ArrayMember[].
+	 * @param a ArrayMember array to test.
+	 * @throws NullPointerException if a is null
+	 * @throws IllegalArgumentException if the array is of size 0, or if one or more members are negative.
+	 * @return an int containing the highest value in the array.
+     */
 	private static int getMaxValue(ArrayMember[] a) {
 		if(a == null)
 			throw new NullPointerException();
@@ -141,6 +166,14 @@ public class SortingWindow extends JPanel {
 			else if(a[i].getValue() > result)
 				result = a[i].getValue();
 		return result;
+	}
+	
+	/**
+     * Gets the ArrayMember[] arr.
+	 * @return a reference to ArrayMember[] arr
+     */
+	public ArrayMember[] getArray() {
+		return this.arr;
 	}
 }
 
