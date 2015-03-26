@@ -96,6 +96,70 @@ public class SortingWindow extends JPanel {
 			for(int i = 0; i < size; i++) {
 				arr[i] = new ArrayMember(size - i);
 			}
+		
+		// Equal N-2
+		} else if (distr == 4) {
+			
+			// Set all members to 32
+			for(int i = 0; i < size; i++) {
+				arr[i] = new ArrayMember(32);
+			}
+			
+			Random rand = new Random();
+			
+			// Get two indexes; one to set to 16, and the other to 48
+			int a = Math.abs(rand.nextInt() % size);
+			int b = Math.abs(rand.nextInt() % size);
+			
+			// Don't let a and b share the same index.
+			while(b == a)
+				b = rand.nextInt() % size;
+			
+			// Set the values
+			arr[a].setValue(16);
+			arr[b].setValue(48);
+		
+		// Pyramid
+		} else if (distr == 5) {
+			
+			// If the array has an odd number of members
+			// boolean odd = size % 2 == 1;
+			
+			// Build the list with odd numbers ascending
+			for(int i = 0; i < (size / 2); i++) {
+				arr[i] = new ArrayMember(2 * i + 1);
+			}
+			
+			// Build the list with even numbers descending
+			for(int i = (size / 2); i < size; i++) {
+				arr[i] = new ArrayMember(-2 * i + (size * 2));
+			}
+		
+		// Shuffled Cubic
+		} else if (distr == 6) {
+			for(int i = 0; i < size; i++) {
+				
+				// Bound x from -1 to +1
+				double x = (2.0 * (double)i / size) - 1.0;
+				
+				// Plot v = x^3
+				double v = Math.pow(x, 3);
+				
+				// Scale these values to our array size
+				double w = (v + 1.0) / 2.0 * size + 1;
+				
+				// Set the values
+				arr[i] = new ArrayMember((int)w + 1);
+			}
+			
+			// Shuffle the array
+			Random rand = new Random();
+			for(int i = 0; i < size; i++) {
+				int swapPos = Math.abs(rand.nextInt() % size);
+				ArrayMember temp = this.arr[i];
+				this.arr[i] = this.arr[swapPos];
+				this.arr[swapPos] = temp;
+			}
 		}
     }
     

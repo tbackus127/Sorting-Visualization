@@ -31,7 +31,7 @@ public class GSortGUI {
     // Label and array distribution dropdown box
     private JLabel labelDistr;
     private JComboBox distrSelect;
-    private String[] distrOptions = {"Random", "Ascending", "Nearly Sorted", "Descending", "Equal N-2", "Pyramid", "Cubic"};
+    private String[] distrOptions = {"Random", "Ascending", "Nearly Sorted", "Descending", "Equal N-2", "Pyramid", "Shuffled Cubic"};
     
     // Label and sorting speed dropdown box
     private JLabel labelSpeeds;
