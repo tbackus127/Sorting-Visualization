@@ -7,11 +7,13 @@
  * <p>
  * Inspired by Sound of Sorting by Timo Bingmann.</p>
  */
-
+ 
+package com.rath;
+ 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
-import gui.GSortGUI;
+import com.rath.gui.GSortGUI;
 
 public class GraphicalSorter {
     

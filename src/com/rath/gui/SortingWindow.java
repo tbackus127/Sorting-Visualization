@@ -1,11 +1,12 @@
-package gui;
+package com.rath.gui;
 
 import java.util.Random;
 import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.JPanel;
 
-import elem.ArrayMember;
+import com.rath.elem.ArrayMember;
+import com.rath.elem.ArrayMemberList;
 
 public class SortingWindow extends JPanel {
     

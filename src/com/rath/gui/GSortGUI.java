@@ -1,4 +1,4 @@
-package gui;
+package com.rath.gui;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -16,13 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import gui.SortingWindow;
-import elem.ArrayMember;
+import com.rath.gui.SortingWindow;
+import com.rath.elem.ArrayMemberList;
 
 public class GSortGUI {
     
   private static final String DEFAULT_ARRAY_SIZE = "256";
-	private static final File SORT_DIR = new File("./sorts/");
+	private static final File SORT_DIR = new File("./com/rath/sorts/");
     
   // Toolbar panel
   private JPanel guiPanel;
@@ -53,7 +53,7 @@ public class GSortGUI {
   private JButton buttonSort;
   
   private SortingWindow sortWin;
-	private ArrayMember[] arr;
+	private ArrayMemberList memberList;
 	
 	private int maxArraySize;
   
@@ -140,7 +140,7 @@ public class GSortGUI {
           
           // Enable the sort button.
           buttonSort.setEnabled(true);
-          arr = sortWin.getArray();
+          memberList = sortWin.getArrayMembers();
           
         } else {
           buttonSort.setEnabled(false);
@@ -186,13 +186,16 @@ public class GSortGUI {
 			}
 		});
 		
+    if(sortFiles.length == 0) {
+      System.out.println("No valid algorithms compiled.");
+    }
+    
 		String[] result = new String[sortFiles.length];
 		for(int i = 0; i < sortFiles.length; i++){
 			String fileName = sortFiles[i].getName();
 			int pos = fileName.lastIndexOf(".");
 			result[i] = fileName.substring(0, pos);
 		}
-		
 		
 		return result;
 	}

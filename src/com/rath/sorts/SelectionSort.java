@@ -7,7 +7,9 @@
  * </p>
  */
 
-package sorts;
+package com.rath.sorts;
+
+import com.rath.elem.ArrayMemberList;
 
 public class SelectionSort {
   
@@ -27,13 +29,13 @@ public class SelectionSort {
    */
   public void sort() {
 	
-		for(int i = 0; i < array.length; i++) {
+		for(int i = 0; i < array.getSize(); i++) {
 			int selection = 0;
 			int comp = array.getValue(i);
-			for(int j = i+1; j < array.length; j++) {
+			for(int j = i+1; j < array.getSize(); j++) {
         int curr = array.getValue(j);
         if(curr < comp)
-          swap(i, j);
+          array.swap(i, j);
 			}
 		}
 	}

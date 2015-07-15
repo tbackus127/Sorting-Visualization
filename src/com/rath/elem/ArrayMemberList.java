@@ -7,6 +7,10 @@
  * </p>
  */
 
+package com.rath.elem;
+
+import com.rath.elem.ArrayMember;
+ 
 public class ArrayMemberList {
   
   private final ArrayMember[] members;
@@ -35,7 +39,7 @@ public class ArrayMemberList {
    * @throws ArrayIndexOutOfBoundsException if the member list has 0 members
 	 * @return an int containing the highest value in the array.
    */
-	private static int getMaxValue() {
+	public int getMaxValue() {
 		if(members == null)
 			throw new NullPointerException();
     if(members.length <= 0)
@@ -56,19 +60,17 @@ public class ArrayMemberList {
 	 * @return an int containing the lowest value in the array.
    */
   public int getMinValue() {
-    private static int getMaxValue() {
-      if(members == null)
-        throw new NullPointerException();
-      if(members.length <= 0)
-        throw new ArrayIndexOutOfBoundsException();
-      int result = Integer.MAX_VALUE;
-      for(int i = 0; i < members.length; i++)
-        if(members[i].getValue() < 0)
-          throw new IllegalArgumentException("Array members must be positive");
-        else if(members[i].getValue() < result)
-          result = members[i].getValue();
-      return result;
-    }
+    if(members == null)
+      throw new NullPointerException();
+    if(members.length <= 0)
+      throw new ArrayIndexOutOfBoundsException();
+    int result = Integer.MAX_VALUE;
+    for(int i = 0; i < members.length; i++)
+      if(members[i].getValue() < 0)
+        throw new IllegalArgumentException("Array members must be positive");
+      else if(members[i].getValue() < result)
+        result = members[i].getValue();
+    return result;
   }
   
 }

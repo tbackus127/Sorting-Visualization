@@ -7,7 +7,7 @@
  * </p>
  */
 
-package elem;
+package com.rath.elem;
  
 public class ArrayMember {
 
