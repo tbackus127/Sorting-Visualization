@@ -12,37 +12,37 @@ public class SortingWindow extends JPanel {
 	private static final int HORIZONTAL_MARGIN = 8;
 	private static final int TOP_MARGIN = 8;
 	
-    private ArrayMember[] arr;
-    private int screenWidth;
-    private int screenHeight;
-    private int sortType;
-    private int distribution;
-    
-    /**
-     * Default constructor. Will create a new blank SortingWindow.
-     * @param w the width of the sorting window.
-     * @param h the height of the sorting window.
-     */
-    public SortingWindow(int w, int h) {
-		super();
-		setSize(w, h);
-		setLocation(0, h);
-		this.screenWidth = w;
-		this.screenHeight = h;
-		setBackground(Color.BLACK);
-    }
-    
-    /**
-     *	@param type: Specifies the sorting algorithm to use.
-     * 	@param arraySize: Specifies the size of the array. 
-     * 	@param distr: Specifies the initial distribution of the array.
-     */
-    public SortingWindow(int w, int h, int type, int arraySize, int distr) {
-		this(w, h);
-		this.screenWidth = w;
-		this.screenHeight = h;	// Allow 8px of padding on the top/bottom.
-		buildArray(arraySize, distr);
-	}
+  private ArrayMember[] arr;
+  private int screenWidth;
+  private int screenHeight;
+  private int sortType;
+  private int distribution;
+  
+  /**
+   * Default constructor. Will create a new blank SortingWindow.
+   * @param w the width of the sorting window.
+   * @param h the height of the sorting window.
+   */
+  public SortingWindow(int w, int h) {
+    super();
+    setSize(w, h);
+    setLocation(0, h);
+    this.screenWidth = w;
+    this.screenHeight = h;
+    setBackground(Color.BLACK);
+  }
+  
+  /**
+   *	@param type: Specifies the sorting algorithm to use.
+   * 	@param arraySize: Specifies the size of the array. 
+   * 	@param distr: Specifies the initial distribution of the array.
+   */
+  public SortingWindow(int w, int h, int type, int arraySize, int distr) {
+    this(w, h);
+    this.screenWidth = w;
+    this.screenHeight = h;	// Allow 8px of padding on the top/bottom.
+    buildArray(arraySize, distr);
+  } 
 		
 	public final void setOptions(int type, int arraySize, int distr) {
 		this.sortType = type;
@@ -52,10 +52,10 @@ public class SortingWindow extends JPanel {
 	
 	
 	/**
-     * Builds the array with the specified metrics.
+   * Builds the array with the specified metrics.
 	 * @param size the number of elements in the array (8-1264)
 	 * @param distr the distribution of the elements (see String[] distrOptions in GSortGUI.java)
-     */
+   */
 	private void buildArray(int size, int distr) {
 	
 		this.arr = new ArrayMember[size];
@@ -165,13 +165,13 @@ public class SortingWindow extends JPanel {
 				this.arr[swapPos] = temp;
 			}
 		}
-    }
+  }
     
 	/**
-     * Paints the sorting window.
+   * Paints the sorting window.
 	 * @param g Graphics object
-     */
-    public void paintComponent(Graphics g) {
+   */
+  public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
 		g.setColor(Color.WHITE);
@@ -213,15 +213,15 @@ public class SortingWindow extends JPanel {
 			// Draw the rectangle with x/y/w/h specified
 			g.fillRect(x, y, w, h);
 		} 	
-    }
+  }
 	
 	/**
-     * Gets the highest value of the passed ArrayMember[].
+   * Gets the highest value of the passed ArrayMember[].
 	 * @param a ArrayMember array to test.
 	 * @throws NullPointerException if a is null
 	 * @throws IllegalArgumentException if the array is of size 0, or if one or more members are negative.
 	 * @return an int containing the highest value in the array.
-     */
+   */
 	private static int getMaxValue(ArrayMember[] a) {
 		if(a == null)
 			throw new NullPointerException();
@@ -237,9 +237,9 @@ public class SortingWindow extends JPanel {
 	}
 	
 	/**
-     * Gets the ArrayMember[] arr.
+   * Gets the ArrayMember[] arr.
 	 * @return a reference to ArrayMember[] arr
-     */
+   */
 	public ArrayMember[] getArray() {
 		return this.arr;
 	}

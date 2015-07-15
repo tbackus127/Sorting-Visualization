@@ -18,10 +18,10 @@ public class ArrayMember {
      * @param val the value the ArrayMember will have.
      */
     public ArrayMember(int val) {
-		this.value = val;
-		colorRGB = new int[3];
-		for(int i = 0; i < colorRGB.length; i++)
-			colorRGB[i] = 255;
+      this.value = val;
+      colorRGB = new int[3];
+      for(int i = 0; i < colorRGB.length; i++)
+        colorRGB[i] = 255;
     }
     
     /**
@@ -29,7 +29,7 @@ public class ArrayMember {
      * @return 	the value the ArrayMember has.
      */
     public int getValue() {
-		return this.value;
+      return this.value;
     }
     
     /**
@@ -37,7 +37,7 @@ public class ArrayMember {
      * @param val the value the ArrayMember will have.
      */
     public void setValue(int val) {
-		this.value = val;
+      this.value = val;
     }
     
     /**
@@ -45,7 +45,7 @@ public class ArrayMember {
      * @return 	an int[] containing the RGB values of the ArrayMember's color.
      */
     public int[] getColor() {
-		return this.colorRGB;
+      return this.colorRGB;
     }
     
     /**
@@ -53,6 +53,6 @@ public class ArrayMember {
      * @param colRGB an int[] of size 3 containing the red, green, and blue values of the ArrayMember, respectively.
      */
     public void setColor(int[] colRGB) {
-		this.colorRGB = colRGB;
+      this.colorRGB = colRGB;
     }
 }

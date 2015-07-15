@@ -12,9 +12,9 @@ public class SelectionSort extends GSortMember {
 			int selection = 0;
 			int comp = array.getValue(i);
 			for(int j = i+1; j < array.length; j++) {
-			int curr = array.getValue(j);
-			if(curr < comp)
-				swap(i, j);
+        int curr = array.getValue(j);
+        if(curr < comp)
+          swap(i, j);
 			}
 		}
 	}
