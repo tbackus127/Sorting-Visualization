@@ -9,6 +9,9 @@ import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
@@ -173,9 +176,27 @@ public class GSortGUI {
     int sortID = sortSelect.getSelectedIndex();
     int sortDelay = 100;	// ms
       
-    // arr[20].setValue(50);
-    // sortWin.repaint();
-    // new Color(r, g, b);
+    ClassLoader loader = GSortGUI.class.getClassLoader();
+    try {
+      // Class sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
+      Class<?> sortClass = loader.loadClass("com.rath.sorts.SelectionSort");
+      
+      Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
+      Object sortInstance = constr.newInstance(memberList);
+      
+      Method sortMethod = sortClass.getMethod("sort");
+      sortMethod.invoke(sortInstance);
+      
+      System.out.println("Loaded successfully.");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+    
+    // memberList.swap(0, 1);
+    sortWin.repaint();
+    
+    // Use "new Color(r, g, b)" to change color;
   }
     
 	private String[] getAvailableSorts() {
