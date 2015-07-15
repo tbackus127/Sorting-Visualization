@@ -1,12 +1,31 @@
+/**
+ * Graphical Sorter - SelectionSort
+ * @author Tim Backus
+ * @version rev001
+ * <p>
+ * This class serves as an example of how to make sorting algorithms for this program.
+ * </p>
+ */
+
 package sorts;
 
-public class SelectionSort extends GSortMember {
-    
-	public SelectionSort(ArrayMember[] argArray) {
-		super(argArray);
+public class SelectionSort {
+  
+  private final ArrayMemberList array;
+  
+  /**
+   * Default constructor
+   * @param argArray a reference to the ArrayMemberList to be sorted
+   * All sorts must have a constructor Constructor(ArrayMemberList) to be considered valid.
+   */
+	public SelectionSort(ArrayMemberList argArray) {
+		array = argArray;
 	}
 	
-    protected void sort() {
+  /**
+   * Perform the sort. Must be public void.
+   */
+  public void sort() {
 	
 		for(int i = 0; i < array.length; i++) {
 			int selection = 0;

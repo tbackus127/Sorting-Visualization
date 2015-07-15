@@ -4,6 +4,7 @@
  * @version rev001
  * <p>
  * This class contains the values of each array member, and any metadata the program may need.
+ * </p>
  */
 
 package elem;

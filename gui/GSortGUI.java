@@ -56,7 +56,7 @@ public class GSortGUI {
 	private ArrayMember[] arr;
 	
 	private int maxArraySize;
-				     
+  
   /**
    * Default constructor. Will create a new JPanel toolbar at the top of the main window, as well as an empty space for the sorting window.
    * @param width the width of the program window.

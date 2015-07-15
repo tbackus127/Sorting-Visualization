@@ -12,7 +12,8 @@ public class SortingWindow extends JPanel {
 	private static final int HORIZONTAL_MARGIN = 8;
 	private static final int TOP_MARGIN = 8;
 	
-  private ArrayMember[] arr;
+  private ArrayMember[] arrayMembers;
+  private ArrayMemberList memberList;
   private int screenWidth;
   private int screenHeight;
   private int sortType;
@@ -58,14 +59,14 @@ public class SortingWindow extends JPanel {
    */
 	private void buildArray(int size, int distr) {
 	
-		this.arr = new ArrayMember[size];
+		this.arrayMembers = new ArrayMember[size];
 	 
 		// For rand, asc, nearly sorted
 		if(distr >= 0 && distr <= 2) {
 			
 			// Build the list ascending
 			for(int i = 0; i < size; i++) {
-				arr[i] = new ArrayMember(i + 1);
+				arrayMembers[i] = new ArrayMember(i + 1);
 			}
 			
 			// Random shuffle
@@ -75,9 +76,9 @@ public class SortingWindow extends JPanel {
 				Random rand = new Random();
 				for(int i = 0; i < size; i++) {
 					int swapPos = Math.abs(rand.nextInt() % size);
-					ArrayMember temp = this.arr[i];
-					this.arr[i] = this.arr[swapPos];
-					this.arr[swapPos] = temp;
+					ArrayMember temp = this.arrayMembers[i];
+					this.arrayMembers[i] = this.arrayMembers[swapPos];
+					this.arrayMembers[swapPos] = temp;
 				}
 				
 			// Nearly sorted
@@ -89,16 +90,16 @@ public class SortingWindow extends JPanel {
 						swapPos = 0;
 					if(swapPos > size - 1)
 						swapPos = size - 1;
-					ArrayMember temp = this.arr[i];
-					this.arr[i] = this.arr[swapPos];
-					this.arr[swapPos] = temp;
+					ArrayMember temp = this.arrayMembers[i];
+					this.arrayMembers[i] = this.arrayMembers[swapPos];
+					this.arrayMembers[swapPos] = temp;
 				}
 			}
 			
 		// Descending
 		} else if (distr == 3) {
 			for(int i = 0; i < size; i++) {
-				arr[i] = new ArrayMember(size - i);
+				arrayMembers[i] = new ArrayMember(size - i);
 			}
 		
 		// Equal N-2
@@ -106,7 +107,7 @@ public class SortingWindow extends JPanel {
 			
 			// Set all members to 32
 			for(int i = 0; i < size; i++) {
-				arr[i] = new ArrayMember(32);
+				arrayMembers[i] = new ArrayMember(32);
 			}
 			
 			Random rand = new Random();
@@ -120,8 +121,8 @@ public class SortingWindow extends JPanel {
 				b = rand.nextInt() % size;
 			
 			// Set the values
-			arr[a].setValue(16);
-			arr[b].setValue(48);
+			arrayMembers[a].setValue(16);
+			arrayMembers[b].setValue(48);
 		
 		// Pyramid
 		} else if (distr == 5) {
@@ -131,12 +132,12 @@ public class SortingWindow extends JPanel {
 			
 			// Build the list with odd numbers ascending
 			for(int i = 0; i < (size / 2); i++) {
-				arr[i] = new ArrayMember(2 * i + 1);
+				arrayMembers[i] = new ArrayMember(2 * i + 1);
 			}
 			
 			// Build the list with even numbers descending
 			for(int i = (size / 2); i < size; i++) {
-				arr[i] = new ArrayMember(-2 * i + (size * 2));
+				arrayMembers[i] = new ArrayMember(-2 * i + (size * 2));
 			}
 		
 		// Shuffled Cubic
@@ -153,18 +154,20 @@ public class SortingWindow extends JPanel {
 				double w = (v + 1.0) / 2.0 * size + 1;
 				
 				// Set the values
-				arr[i] = new ArrayMember((int)w + 1);
+				arrayMembers[i] = new ArrayMember((int)w + 1);
 			}
 			
 			// Shuffle the array
 			Random rand = new Random();
 			for(int i = 0; i < size; i++) {
 				int swapPos = Math.abs(rand.nextInt() % size);
-				ArrayMember temp = this.arr[i];
-				this.arr[i] = this.arr[swapPos];
-				this.arr[swapPos] = temp;
+				ArrayMember temp = this.arrayMembers[i];
+				this.arrayMembers[i] = this.arrayMembers[swapPos];
+				this.arrayMembers[swapPos] = temp;
 			}
 		}
+    
+    this.memberList = new ArrayMemberList(this.arrayMembers);
   }
     
 	/**
@@ -177,7 +180,7 @@ public class SortingWindow extends JPanel {
 		g.setColor(Color.WHITE);
 		
 		// n = array length
-		int n = this.arr.length;
+		int n = this.memberList.getSize();
 		
 		// Width/height in pixels of the drawing area
 		int areaWidth = this.screenWidth - (HORIZONTAL_MARGIN * 2);
@@ -188,11 +191,12 @@ public class SortingWindow extends JPanel {
 		
 		// Scale multiplier for extending the array to the full height
 		// getMaxValue() must be casted to a double for precision.
-		double scale = areaHeight / (double)getMaxValue(this.arr);
+		double scale = areaHeight / (double)memberList.getMaxValue();
 		
-		for(int i = 0; i < arr.length; i++) {
+    // Draw each of the rectangles
+		for(int i = 0; i < this.memberList.getSize(); i++) {
 			
-			int value = this.arr[i].getValue();
+			int value = this.memberList.getValue(i);
 			
 			// Horizontal location of the bar's origin (draws from top-left)
 			// Start with the side margin as an offset, and multiply bar width by which bar we are drawing
@@ -216,32 +220,11 @@ public class SortingWindow extends JPanel {
   }
 	
 	/**
-   * Gets the highest value of the passed ArrayMember[].
-	 * @param a ArrayMember array to test.
-	 * @throws NullPointerException if a is null
-	 * @throws IllegalArgumentException if the array is of size 0, or if one or more members are negative.
-	 * @return an int containing the highest value in the array.
+   * Gets the ArrayMemberList memberList.
+	 * @return a reference to memberList
    */
-	private static int getMaxValue(ArrayMember[] a) {
-		if(a == null)
-			throw new NullPointerException();
-		else if(a.length == 0)
-			throw new IllegalArgumentException("Array size is zero");
-		int result = 0;
-		for(int i = 0; i < a.length; i++)
-			if(a[i].getValue() < 0)
-				throw new IllegalArgumentException("Array members must be positive");
-			else if(a[i].getValue() > result)
-				result = a[i].getValue();
-		return result;
-	}
-	
-	/**
-   * Gets the ArrayMember[] arr.
-	 * @return a reference to ArrayMember[] arr
-   */
-	public ArrayMember[] getArray() {
-		return this.arr;
+	public ArrayMemberList getArrayMembers() {
+		return this.memberList;
 	}
 }
 

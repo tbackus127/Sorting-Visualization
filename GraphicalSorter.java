@@ -3,9 +3,9 @@
  * @author Tim Backus
  * @version rev001
  * <p>
- * This program animated various sorting algorithms by displaying values of an array as vertical bars.
+ * This program animated various sorting algorithms by displaying values of an array as vertical bars.</p>
  * <p>
- * Inspired by Sound of Sorting by Timo Bingmann.
+ * Inspired by Sound of Sorting by Timo Bingmann.</p>
  */
 
 import java.awt.BorderLayout;
