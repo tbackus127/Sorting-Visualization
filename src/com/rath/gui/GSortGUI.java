@@ -174,31 +174,50 @@ public class GSortGUI {
    */
   private void executeSort() {
     int sortID = sortSelect.getSelectedIndex();
-    int sortDelay = 100;	// ms
+    int sortDelay = 10;	// ms
       
     ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
       // Class sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
       Class<?> sortClass = loader.loadClass("com.rath.sorts.SelectionSort");
       
-      Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
-      Object sortInstance = constr.newInstance(memberList);
       
-      Method sortMethod = sortClass.getMethod("sort");
-      sortMethod.invoke(sortInstance);
       
-      System.out.println("Loaded successfully.");
+      
+      
+      
+      // TODO: All of this. Get a thread spun up with the loaded class.
+      
+      
+      
+      
+      Constructor constr = sortClass.getConstructor(ArrayMemberList.class, Integer.TYPE);
+      // Object sortInstance = ;
+      
+      Thread sortThread = new Thread(sortClass.newInstance(memberList, sortDelay));
+      sortThread.start();
+      
+      // Method sortMethod = sortClass.getMethod("run");
+      // sortMethod.invoke(sortInstance);
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      while(sortThread.isAlive()) {
+        sortWin.repaint();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
     
-    
-    // memberList.swap(0, 1);
-    sortWin.repaint();
-    
-    // Use "new Color(r, g, b)" to change color;
   }
-    
+  
 	private String[] getAvailableSorts() {
 		File dir = SORT_DIR;
 		File[] sortFiles = dir.listFiles(new FilenameFilter() {
