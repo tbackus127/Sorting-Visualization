@@ -14,7 +14,7 @@ import com.rath.elem.ArrayMemberList;
 public class SelectionSort implements Runnable {
   
   private final ArrayMemberList array;
-  private final int sortDelay;          // Delay in ms
+  // private final int sortDelay;          // Delay in ms
   
   
   /**
@@ -22,13 +22,16 @@ public class SelectionSort implements Runnable {
    * @param argArray a reference to the ArrayMemberList to be sorted
    * All sorts must have a constructor Constructor(ArrayMemberList) to be considered valid.
    */
-	public SelectionSort(ArrayMemberList argArray, int argDelay) {
+	public SelectionSort(ArrayMemberList argArray) {
 		array = argArray;
-    sortDelay = argDelay;
+    // sortDelay = argDelay;
+    System.out.println("Constructed sort");
 	}
 
   public void run() {
+    System.out.println("Called run()");
     sort();
+    System.out.println("Sort finished (mod)");
   }
 	
   /**
@@ -38,6 +41,7 @@ public class SelectionSort implements Runnable {
 	
     // i = index to select for
 		for(int i = 0; i < array.getSize() - 1; i++) {
+      // System.out.println("Selection Sort: iteration " + i);
       int minPos = i;
       // Find the lowest value in the array for the rest of it up from index i
 			for(int j = i+1; j < array.getSize(); j++) {
@@ -45,11 +49,6 @@ public class SelectionSort implements Runnable {
           minPos = j;
 			}
       array.swap(i, minPos);
-      try {
-        Thread.sleep(sortDelay);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
 		}
 	}
 }

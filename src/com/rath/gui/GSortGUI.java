@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.SwingWorker;
 
 import com.rath.gui.SortingWindow;
 import com.rath.elem.ArrayMemberList;
@@ -178,39 +179,36 @@ public class GSortGUI {
       
     ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
+      
       // Class sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
       Class<?> sortClass = loader.loadClass("com.rath.sorts.SelectionSort");
-      
-      
-      
-      
-      
+      Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
       
       // TODO: All of this. Get a thread spun up with the loaded class.
+      // TODO: Add delay -- hook into ArrayMemberList and construct with delay, sleep for N ms there.
       
       
+      SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        
+        @Override
+        protected Void doInBackground() throws Exception {
+          Object sortInstance = constr.newInstance(memberList);
+          Method sortMethod = sortClass.getMethod("run");
+          System.out.println("Loaded successfully.");
+          sortMethod.invoke(sortInstance);
+          return null;
+        }
+        
+        @Override
+        protected void done() {
+          System.out.println("Sort completed.");
+        }
+      };
+      worker.execute();
       
-      
-      Constructor constr = sortClass.getConstructor(ArrayMemberList.class, Integer.TYPE);
-      // Object sortInstance = ;
-      
-      Thread sortThread = new Thread(sortClass.newInstance(memberList, sortDelay));
-      sortThread.start();
-      
-      // Method sortMethod = sortClass.getMethod("run");
-      // sortMethod.invoke(sortInstance);
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      while(sortThread.isAlive()) {
+      while(!worker.isDone()) {
         sortWin.repaint();
+        System.out.println("Repainting...");
       }
     } catch (Exception e) {
       e.printStackTrace();

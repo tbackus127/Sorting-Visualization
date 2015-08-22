@@ -175,7 +175,9 @@ public class SortingWindow extends JPanel {
    * Paints the sorting window.
 	 * @param g Graphics object
    */
+  @Override
   public void paintComponent(Graphics g) {
+    System.out.println("SortingWindow.paintComponent()");
 		super.paintComponent(g);
 		
 		g.setColor(Color.WHITE);
