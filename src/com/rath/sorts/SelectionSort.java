@@ -46,13 +46,13 @@ public class SelectionSort {
           
 			}
       array.swap(i, minPos);
-      try {
-        
-        // For delay testing purposes only (will remove once I figure this out...)
-        Thread.sleep(10);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+      
+      // For delay testing purposes only (will remove once I figure this out...)
+      // try {
+        // Thread.sleep(10);
+      // } catch (InterruptedException e) {
+        // e.printStackTrace();
+      // }
 		}
 	}
 }

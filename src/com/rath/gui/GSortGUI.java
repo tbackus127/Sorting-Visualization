@@ -205,13 +205,15 @@ public class GSortGUI {
       };
       worker.execute();
       
+      // Refresh the panel while the algorithm is running
       while(!worker.isDone()) {
-        sortWin.repaint();
-        System.out.println("Repainting...");
+        sortWin.paintImmediately(0, 0, 1280, 720 - 32);
+        // System.out.println("Repainting...");
       }
       
       // Repaint again when finished
       sortWin.repaint();
+      System.out.println("Repainting finished.");
       
     } catch (Exception e) {
       e.printStackTrace();
