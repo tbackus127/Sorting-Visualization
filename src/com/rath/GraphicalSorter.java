@@ -13,6 +13,7 @@ package com.rath;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import com.rath.gui.GSortGUI;
 
@@ -27,21 +28,25 @@ public class GraphicalSorter {
    * @param args the runtime arguments. ** Currently unused **.
    */
   public static void main(String[] args) {
-
-    // Initialize a new JFrame for the program
-    JFrame frame = new JFrame("Tim's Graphical Sorter");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(WIDTH, HEIGHT + TOPBAR_HEIGHT);
-    frame.setLayout(new BorderLayout(0,0));
     
-    // Create the toolbar and add it to the window
-    GSortGUI input = new GSortGUI(WIDTH, HEIGHT, TOPBAR_HEIGHT, frame);
-    frame.add(input.getGUIPanel(), BorderLayout.PAGE_START);
-    
-    // Finalize the window
-    frame.setLocationRelativeTo(null);
-    frame.setResizable(false);
-    frame.setVisible(true);
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        // Initialize a new JFrame for the program
+        JFrame frame = new JFrame("Tim's Graphical Sorter");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(WIDTH, HEIGHT + TOPBAR_HEIGHT);
+        frame.setLayout(new BorderLayout(0,0));
+        
+        // Create the toolbar and add it to the window
+        GSortGUI input = new GSortGUI(WIDTH, HEIGHT, TOPBAR_HEIGHT, frame);
+        frame.add(input.getGUIPanel(), BorderLayout.PAGE_START);
+        
+        // Finalize the window
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setVisible(true);
+      }
+    });
   }
 }
 
@@ -55,8 +60,5 @@ Sorter Commands
     setPointer(id, index)
     getPointer(id)
     
-
-
-
 
 */

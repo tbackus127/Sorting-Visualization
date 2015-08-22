@@ -56,7 +56,7 @@ public class GSortGUI {
   private JButton buttonBuild;
   private JButton buttonSort;
   
-  private SortingWindow sortWin;
+  public SortingWindow sortWin;
 	private ArrayMemberList memberList;
 	
 	private int maxArraySize;
@@ -142,6 +142,8 @@ public class GSortGUI {
           sortWin.validate();
           sortWin.repaint();
           
+          System.out.println(sortWin);
+          
           // Enable the sort button.
           buttonSort.setEnabled(true);
           memberList = sortWin.getArrayMembers();
@@ -184,16 +186,13 @@ public class GSortGUI {
       Class<?> sortClass = loader.loadClass("com.rath.sorts.SelectionSort");
       Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
       
-      // TODO: All of this. Get a thread spun up with the loaded class.
-      // TODO: Add delay -- hook into ArrayMemberList and construct with delay, sleep for N ms there.
-      
-      
+      // Algorithm worker thread
       SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
         
         @Override
         protected Void doInBackground() throws Exception {
           Object sortInstance = constr.newInstance(memberList);
-          Method sortMethod = sortClass.getMethod("run");
+          Method sortMethod = sortClass.getMethod("sort");
           System.out.println("Loaded successfully.");
           sortMethod.invoke(sortInstance);
           return null;
@@ -210,6 +209,10 @@ public class GSortGUI {
         sortWin.repaint();
         System.out.println("Repainting...");
       }
+      
+      // Repaint again when finished
+      sortWin.repaint();
+      
     } catch (Exception e) {
       e.printStackTrace();
     }

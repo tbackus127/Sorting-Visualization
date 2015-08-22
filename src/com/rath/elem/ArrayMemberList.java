@@ -23,14 +23,9 @@ public class ArrayMemberList {
     ArrayMember temp = members[a];
     members[a] = members[b];
     members[b] = temp;
-    try {
-      Thread.sleep(10);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
   }
   
-  public synchronized int getValue(int index) {
+  public int getValue(int index) {
     return members[index].getValue();
   }
   
