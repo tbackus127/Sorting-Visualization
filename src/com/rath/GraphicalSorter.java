@@ -30,7 +30,9 @@ public class GraphicalSorter {
   public static void main(String[] args) {
     
     SwingUtilities.invokeLater(new Runnable() {
+      
       public void run() {
+        
         // Initialize a new JFrame for the program
         JFrame frame = new JFrame("Tim's Graphical Sorter");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,12 +55,42 @@ public class GraphicalSorter {
 
 /*
 
-Sorter Commands
-    getValue(index)
-    setValue(index, value)
-    swap(indexA, indexB)
-    setPointer(id, index)
-    getPointer(id)
-    
+- TODO List -
+> Create ArrayMember markType property, check markType before paintComponent(), color accordingly
+> Life ticks for marks, fade out color after each tick.
+> Set delay on ArrayMemberList read/write
+> Implement different delay times.
+> Sort Options JComboBox; find some way to implement it only in the sort class. Ex: Quicksort's pointers, Radix LSB/MSB
+> Show extra memory on bottom edge of screen?
+> Bubble Sort
+> Insertion Sort
+> Merge Sort
+> Heap Sort
+> Quick Sort
+> Bogo Sort
+> Dual-Pivot Quick Sort
+> N-Thread Quick Sort
+> Shell Sort
+> Tim Sort
+> Counting Sort
+> Radix Sort
+> Shatter-Time Sort (multithreaded counting sort, fix errors with insertion sort)
 
+
+Sorter Commands
+    getValue(index) -> mark.READ
+    setValue(index, n) -> mark.WRITE
+    swap(indexA, indexB)
+    compare(indexA, indexB) -> mark.COMP
+    markPartition(low, high) -> mark.ACTIVE, mark.INACTIVE
+    
+Mark Types
+> Read: Desaturated Red
+> Write: Yellow
+> Compare: Cyan
+> Active Partition: White
+> Inactive Partition: Gray
+> Pointer: Green
+    
+    
 */

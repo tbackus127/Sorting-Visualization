@@ -14,7 +14,6 @@ import com.rath.elem.ArrayMemberList;
 public class SelectionSort {
   
   private final ArrayMemberList array;
-  // private final int sortDelay;          // Delay in ms
   
   
   /**
@@ -24,7 +23,6 @@ public class SelectionSort {
    */
 	public SelectionSort(ArrayMemberList argArray) {
 		array = argArray;
-    // sortDelay = argDelay;
     System.out.println("Constructed sort");
 	}
 	
@@ -42,17 +40,8 @@ public class SelectionSort {
 			for(int j = i+1; j < array.getSize(); j++) {
         if(array.getValue(j) < array.getValue(minPos))
           minPos = j;
-          
-          
 			}
       array.swap(i, minPos);
-      
-      // For delay testing purposes only (will remove once I figure this out...)
-      // try {
-        // Thread.sleep(10);
-      // } catch (InterruptedException e) {
-        // e.printStackTrace();
-      // }
 		}
 	}
 }
