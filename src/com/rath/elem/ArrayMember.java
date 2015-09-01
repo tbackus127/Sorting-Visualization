@@ -11,7 +11,13 @@ package com.rath.elem;
  
 public class ArrayMember {
 
-    private int value;		// The number value of the ArrayMember (for comparisons)
+    public static final int STATE_NONE = 0;
+    public static final int STATE_INACTIVE = -1;
+    public static final int STATE_READ = 1;
+    public static final int STATE_COMPARE = 2;
+    public static final int STATE_WRITE = 3;
+
+    private int value;		  // The number value of the ArrayMember (for comparisons)
     private int[] colorRGB;	// The color of the ArrayMember (for highlighting reads/swaps/etc.)
     
     /**

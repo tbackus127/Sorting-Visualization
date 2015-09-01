@@ -9,28 +9,41 @@
 
 package com.rath.elem;
 
+import java.util.ArrayList;
+
 import com.rath.elem.ArrayMember;
  
 public class ArrayMemberList {
   
+  private static final int DEFAULT_LIFE = 30;
+  
   private final ArrayMember[] members;
+  
+  private ArrayList<Integer> memberStateIndeces;
+  private ArrayList<Integer> memberStateIDs;
+  private ArrayList<Integer> memberStateLife;
   
   public ArrayMemberList(ArrayMember[] list) {
     members = list;
+    memberStateIndeces = new ArrayList<Integer>;
+    memberStateIDs = new ArrayList<Integer>;
+    memberStateLife = new ArrayList<Integer>;
   }
   
   public void swap(int a, int b) {
+    mark(a, STATE_WRITE);
+    mark(b, STATE_WRITE);
     ArrayMember temp = members[a];
     members[a] = members[b];
     members[b] = temp;
-    try {
-      Thread.sleep(10);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-  }
+    tickLife();
+    delay(10);
+  }  
   
   public int getValue(int index) {
+    mark(index, STATE_READ);
+    tickLife();
+    delay(10);
     return members[index].getValue();
   }
   
@@ -76,6 +89,39 @@ public class ArrayMemberList {
       else if(members[i].getValue() < result)
         result = members[i].getValue();
     return result;
+  }
+  
+  private void mark(int index, int markState) {
+    if(memberStateIndeces.contains(index)) {
+       memberStateIDs.set(index, markState);
+       memberStateLife.set(index, DEFAULT_LIFE);
+    } else {
+      memberStateIndeces.add(index);
+      memberStateIDs.add(markState);
+      memberStateLife.add(DEFAULT_LIFE);
+    }
+  }
+  
+  private void tickLife() {
+    for(int i = 0; i < memberStateIndeces.size(); i++) {
+      int currentLife = memberStateLife.get(i);
+      if(currentLife < 1) {
+        memberStateIndeces.remove(i);
+        memberStateIDs.remove(i);
+        memberStateLife.remove(i);
+        i--;
+      } else {
+        memberStateLife.set(i, currentLife - 1);
+      }
+    }
+  }
+  
+  private void delay(int time) {
+    try {
+      Thread.sleep(time);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
   
 }
