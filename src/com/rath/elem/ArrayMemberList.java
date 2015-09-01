@@ -12,6 +12,11 @@ package com.rath.elem;
 import java.util.ArrayList;
 
 import com.rath.elem.ArrayMember;
+import static com.rath.elem.ArrayMember.STATE_INACTIVE;
+import static com.rath.elem.ArrayMember.STATE_NONE;
+import static com.rath.elem.ArrayMember.STATE_READ;
+import static com.rath.elem.ArrayMember.STATE_COMPARE;
+import static com.rath.elem.ArrayMember.STATE_WRITE;
  
 public class ArrayMemberList {
   
@@ -25,24 +30,24 @@ public class ArrayMemberList {
   
   public ArrayMemberList(ArrayMember[] list) {
     members = list;
-    memberStateIndeces = new ArrayList<Integer>;
-    memberStateIDs = new ArrayList<Integer>;
-    memberStateLife = new ArrayList<Integer>;
+    memberStateIndeces = new ArrayList<Integer>();
+    memberStateIDs = new ArrayList<Integer>();
+    memberStateLife = new ArrayList<Integer>();
   }
   
   public void swap(int a, int b) {
-    mark(a, STATE_WRITE);
-    mark(b, STATE_WRITE);
     ArrayMember temp = members[a];
     members[a] = members[b];
     members[b] = temp;
-    tickLife();
-    delay(10);
+    // mark(a, STATE_WRITE);
+    // mark(b, STATE_WRITE);
+    delay(20);
+    // tickLife();
   }  
   
   public int getValue(int index) {
     mark(index, STATE_READ);
-    tickLife();
+    // tickLife();
     delay(10);
     return members[index].getValue();
   }
@@ -114,6 +119,10 @@ public class ArrayMemberList {
         memberStateLife.set(i, currentLife - 1);
       }
     }
+  }
+  
+  private int getValueNoDelay(int index) {
+    return members[index].getValue();
   }
   
   private void delay(int time) {

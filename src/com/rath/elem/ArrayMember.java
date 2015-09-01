@@ -11,8 +11,8 @@ package com.rath.elem;
  
 public class ArrayMember {
 
-    public static final int STATE_NONE = 0;
     public static final int STATE_INACTIVE = -1;
+    public static final int STATE_NONE = 0;
     public static final int STATE_READ = 1;
     public static final int STATE_COMPARE = 2;
     public static final int STATE_WRITE = 3;
