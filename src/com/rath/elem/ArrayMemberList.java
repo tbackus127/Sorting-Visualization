@@ -34,7 +34,7 @@ public class ArrayMemberList {
   }
   
   public void swap(int a, int b) {
-    System.err.println("swap()");
+    // System.err.println("swap()");
     ArrayMember temp = members[a];
     members[a] = members[b];
     members[b] = temp;
@@ -43,8 +43,17 @@ public class ArrayMemberList {
     delay(DEFAULT_DELAY);
   }
   
+  // 1 if a > b, -1 if a < b, 0 if a = b
+  public int compare(int a, int b) {
+    mark(a, STATE_READ);
+    mark(b, STATE_READ);
+    delay(DEFAULT_DELAY);
+    int valA = members[a].getValue();
+    int valB = members[b].getValue();
+    return (valA > valB) ? 1 : (valA == valB) ? 0 : -1;
+  }
+  
   public int getValue(int index) {
-    mark(index, STATE_READ);
     return members[index].getValue();
   }
   
@@ -105,7 +114,7 @@ public class ArrayMemberList {
   }
   
   public void tickLife() {
-    System.err.println("tick()");
+    // System.err.println("tick()");
     for(int i = 0; i < memberStates.length; i++) {
       if(--markLife[i] < 1) {
         memberStates[i] = STATE_NONE;
