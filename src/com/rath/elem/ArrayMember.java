@@ -18,7 +18,6 @@ public class ArrayMember {
     public static final int STATE_WRITE = 3;
 
     private int value;		  // The number value of the ArrayMember (for comparisons)
-    private int[] colorRGB;	// The color of the ArrayMember (for highlighting reads/swaps/etc.)
     
     /**
      * Default constructor. Will create a new ArrayMember with the specified value, and a color of (255,255,255).
@@ -26,9 +25,6 @@ public class ArrayMember {
      */
     public ArrayMember(int val) {
       this.value = val;
-      colorRGB = new int[3];
-      for(int i = 0; i < colorRGB.length; i++)
-        colorRGB[i] = 255;
     }
     
     /**
@@ -45,21 +41,5 @@ public class ArrayMember {
      */
     public void setValue(int val) {
       this.value = val;
-    }
-    
-    /**
-     * Returns the color of the ArrayMember.
-     * @return 	an int[] containing the RGB values of the ArrayMember's color.
-     */
-    public int[] getColor() {
-      return this.colorRGB;
-    }
-    
-    /**
-     * Sets the ArrayMember to the specified color.
-     * @param colRGB an int[] of size 3 containing the red, green, and blue values of the ArrayMember, respectively.
-     */
-    public void setColor(int[] colRGB) {
-      this.colorRGB = colRGB;
     }
 }

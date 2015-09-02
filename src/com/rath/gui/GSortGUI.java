@@ -25,7 +25,7 @@ import com.rath.elem.ArrayMemberList;
 
 public class GSortGUI {
     
-  private static final String DEFAULT_ARRAY_SIZE = "256";
+  private static final String DEFAULT_ARRAY_SIZE = "128";
 	private static final File SORT_DIR = new File("./com/rath/sorts/");
     
   // Toolbar panel
@@ -177,7 +177,6 @@ public class GSortGUI {
    */
   private void executeSort() {
     int sortID = sortSelect.getSelectedIndex();
-    int sortDelay = 10;	// ms
       
     ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
@@ -208,9 +207,11 @@ public class GSortGUI {
       // Refresh the panel while the algorithm is running
       while(!worker.isDone()) {
         sortWin.paintImmediately(0, 0, 1280, 720 - 32);               // TODO: <-- Un-hardcode this
+        memberList.tickLife();
       }
       
       // Repaint again when finished
+      memberList.resetStates();
       sortWin.repaint();
       System.out.println("Repainting finished.");
       

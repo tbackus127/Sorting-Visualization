@@ -23,7 +23,7 @@ public class SelectionSort {
    */
 	public SelectionSort(ArrayMemberList argArray) {
 		array = argArray;
-    System.out.println("Constructed sort");
+    System.err.println("Constructed sort");
 	}
 	
   /**
@@ -31,10 +31,10 @@ public class SelectionSort {
    */
   public void sort() {
 	
-    System.out.println("Called sort()");
+    System.err.println("Called sort()");
     // i = index to select for
 		for(int i = 0; i < array.getSize() - 1; i++) {
-      // System.out.println("Selection Sort: iteration " + i);
+      // System.err.println("Selection Sort: iteration " + i);
       int minPos = i;
       // Find the lowest value in the array for the rest of it up from index i
 			for(int j = i+1; j < array.getSize(); j++) {

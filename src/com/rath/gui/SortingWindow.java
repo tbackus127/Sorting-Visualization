@@ -5,6 +5,12 @@ import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.JPanel;
 
+import static com.rath.elem.ArrayMember.STATE_INACTIVE;
+import static com.rath.elem.ArrayMember.STATE_NONE;
+import static com.rath.elem.ArrayMember.STATE_READ;
+import static com.rath.elem.ArrayMember.STATE_COMPARE;
+import static com.rath.elem.ArrayMember.STATE_WRITE;
+
 import com.rath.elem.ArrayMember;
 import com.rath.elem.ArrayMemberList;
 
@@ -198,7 +204,23 @@ public class SortingWindow extends JPanel {
     // Draw each of the rectangles
 		for(int i = 0; i < this.memberList.getSize(); i++) {
 			
-			int value = this.memberList.getValue(i);
+      // Get a handle on the current ArrayMember
+      ArrayMember member = this.memberList.getMember(i);
+      
+			int value = member.getValue();
+      int state = memberList.getState(i);
+      
+      switch(state) {
+        case STATE_READ: 
+          g.setColor(Color.RED);
+          break;
+        case STATE_WRITE:
+          g.setColor(Color.GREEN);
+          break;
+        default:
+          g.setColor(Color.WHITE);
+      }
+      
 			
 			// Horizontal location of the bar's origin (draws from top-left)
 			// Start with the side margin as an offset, and multiply bar width by which bar we are drawing

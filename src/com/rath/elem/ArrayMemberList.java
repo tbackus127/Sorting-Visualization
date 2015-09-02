@@ -20,40 +20,48 @@ import static com.rath.elem.ArrayMember.STATE_WRITE;
  
 public class ArrayMemberList {
   
-  private static final int DEFAULT_LIFE = 30;
+  private static final int DEFAULT_LIFE = 120;
+  private static final int DEFAULT_DELAY = 30;
   
   private final ArrayMember[] members;
-  
-  private ArrayList<Integer> memberStateIndeces;
-  private ArrayList<Integer> memberStateIDs;
-  private ArrayList<Integer> memberStateLife;
+  private final int[] memberStates;
+  private final int[] markLife;
   
   public ArrayMemberList(ArrayMember[] list) {
     members = list;
-    memberStateIndeces = new ArrayList<Integer>();
-    memberStateIDs = new ArrayList<Integer>();
-    memberStateLife = new ArrayList<Integer>();
+    memberStates = new int[list.length];
+    markLife = new int[list.length];
   }
   
   public void swap(int a, int b) {
+    System.err.println("swap()");
     ArrayMember temp = members[a];
     members[a] = members[b];
     members[b] = temp;
-    // mark(a, STATE_WRITE);
-    // mark(b, STATE_WRITE);
-    delay(20);
-    // tickLife();
-  }  
+    mark(a, STATE_WRITE);
+    mark(b, STATE_WRITE);
+    delay(DEFAULT_DELAY);
+  }
   
   public int getValue(int index) {
     mark(index, STATE_READ);
-    // tickLife();
-    delay(10);
     return members[index].getValue();
   }
   
   public int getSize() {
     return members.length;
+  }
+  
+  public int getState(int index) {
+    return memberStates[index];
+  }
+  
+  public int getStateLife(int index) {
+    return markLife[index];
+  }
+  
+  public ArrayMember getMember(int index) {
+    return members[index];
   }
   
   /**
@@ -96,29 +104,25 @@ public class ArrayMemberList {
     return result;
   }
   
-  private void mark(int index, int markState) {
-    if(memberStateIndeces.contains(index)) {
-       memberStateIDs.set(index, markState);
-       memberStateLife.set(index, DEFAULT_LIFE);
-    } else {
-      memberStateIndeces.add(index);
-      memberStateIDs.add(markState);
-      memberStateLife.add(DEFAULT_LIFE);
+  public void tickLife() {
+    System.err.println("tick()");
+    for(int i = 0; i < memberStates.length; i++) {
+      if(--markLife[i] < 1) {
+        memberStates[i] = STATE_NONE;
+      }
     }
   }
   
-  private void tickLife() {
-    for(int i = 0; i < memberStateIndeces.size(); i++) {
-      int currentLife = memberStateLife.get(i);
-      if(currentLife < 1) {
-        memberStateIndeces.remove(i);
-        memberStateIDs.remove(i);
-        memberStateLife.remove(i);
-        i--;
-      } else {
-        memberStateLife.set(i, currentLife - 1);
-      }
+  public void resetStates() {
+    for(int i = 0; i < memberStates.length; i++) {
+      memberStates[i] = 0;
+      markLife[i] = 0;
     }
+  }
+  
+  private void mark(int index, int markState) {
+    memberStates[index] = markState;
+    markLife[index] = DEFAULT_LIFE;
   }
   
   private int getValueNoDelay(int index) {
@@ -132,5 +136,4 @@ public class ArrayMemberList {
       e.printStackTrace();
     }
   }
-  
 }
