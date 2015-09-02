@@ -34,7 +34,6 @@ public class ArrayMemberList {
   }
   
   public void swap(int a, int b) {
-    // System.err.println("swap()");
     ArrayMember temp = members[a];
     members[a] = members[b];
     members[b] = temp;
@@ -51,6 +50,12 @@ public class ArrayMemberList {
     int valA = members[a].getValue();
     int valB = members[b].getValue();
     return (valA > valB) ? 1 : (valA == valB) ? 0 : -1;
+  }
+  
+  public void setValue(int index, int value) {
+    members[index].setValue(value);
+    mark(index, STATE_WRITE);
+    delay(DEFAULT_DELAY);
   }
   
   public int getValue(int index) {
