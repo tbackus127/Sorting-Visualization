@@ -110,7 +110,7 @@ public class GSortGUI {
     // Dropdown: Speed
     this.speedSelect = new JComboBox<String>(this.speedOptions);
     this.speedSelect.setSelectedItem("Normal");
-    this.speedSelect.setToolTipText("Selects the speed at which the algorithm will execute:\n - Very slow: 100ms\n - Slow: 75ms\n - Normal: 40ms\n - Fast: 20ms\n - Very fast: 10ms");
+    this.speedSelect.setToolTipText("Selects the speed of execution (operation delay):\n - Very slow: 50ms\n - Slow: 30ms\n - Normal: 10ms\n - Fast: 3ms\n - Very fast: 1ms");
     guiPanel.add(this.speedSelect);
     
     // Label for spacing
