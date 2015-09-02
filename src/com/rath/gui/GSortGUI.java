@@ -25,7 +25,7 @@ import com.rath.elem.ArrayMemberList;
 
 public class GSortGUI {
     
-  private static final String DEFAULT_ARRAY_SIZE = "128";
+  private static final String DEFAULT_ARRAY_SIZE = "48";
 	private static final File SORT_DIR = new File("./com/rath/sorts/");
     
   // Toolbar panel
@@ -135,14 +135,27 @@ public class GSortGUI {
           if(sortWin != null)
             frame.remove(sortWin);
           
+          // Calculate delays
+          // 0 Very slow = 50ms
+          // 1 Slow = 30ms
+          // 2 Normal = 10ms
+          // 3 Fast = 3ms
+          // 4 Very Fast = 1ms
+          int sortDelay = 10;
+          switch(speedSelect.getSelectedIndex()) {
+            case 0: sortDelay = 50; break;
+            case 1: sortDelay = 30; break;
+            case 3: sortDelay = 3; break;
+            case 4: sortDelay = 1; break;
+            default: sortDelay = 10;
+          }
+          
           // Create a new sorting window with the indicated parameters, and add it to the main window. (w, h, sortType, arraySize, distribution)
-          sortWin = new SortingWindow(width, height - topbarHeight, 0, desiredArraySize, distr);
+          sortWin = new SortingWindow(width, height - topbarHeight, 0, desiredArraySize, distr, sortDelay);
           frame.add(sortWin);
           frame.validate();
           sortWin.validate();
           sortWin.repaint();
-          
-          System.out.println(sortWin);
           
           // Enable the sort button.
           buttonSort.setEnabled(true);
@@ -181,8 +194,8 @@ public class GSortGUI {
     ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
       
-      // Class sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
-      Class<?> sortClass = loader.loadClass("com.rath.sorts.SelectionSort");
+      // Class<?> sortClass = loader.loadClass("com.rath.sorts.SelectionSort");
+      Class<?> sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
       Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
       
       // Algorithm worker thread

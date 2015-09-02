@@ -15,7 +15,6 @@ public class InsertionSort {
   
   private final ArrayMemberList array;
   
-  
   /**
    * Default constructor
    * @param argArray a reference to the ArrayMemberList to be sorted
@@ -29,13 +28,23 @@ public class InsertionSort {
    * Perform the sort.
    */
   public void sort() {
+    
+    // Iterate through the unsorted portion of the array.
     for(int i = 1; i < array.getSize(); i++) {
-      int j = i - 1;
+      
+      // Get the first member of the unsorted portion.
       int currentVal = array.getValue(i);
-      while(j >= 0 && array.compare(currentVal, j) >= 1) {
+      
+      // Position to begin insertion.
+      int j = i - 1;
+      
+      // While we haven't inserted it in the proper position, keep looking.
+      while(j >= 0 && array.compareIndexWithConstant(j, currentVal) >= 1) {
         array.setValue(j + 1, array.getValue(j));
         j--;
       }
+      
+      // Once we've found the proper position, stick it in.
       array.setValue(j + 1, currentVal);
     }
 	}

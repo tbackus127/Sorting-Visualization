@@ -25,6 +25,7 @@ public class SortingWindow extends JPanel {
   private int screenHeight;
   private int sortType;
   private int distribution;
+  private int delayTime;
   
   /**
    * Default constructor. Will create a new blank SortingWindow.
@@ -45,17 +46,19 @@ public class SortingWindow extends JPanel {
    * 	@param arraySize: Specifies the size of the array. 
    * 	@param distr: Specifies the initial distribution of the array.
    */
-  public SortingWindow(int w, int h, int type, int arraySize, int distr) {
+  public SortingWindow(int w, int h, int type, int arraySize, int distr, int delay) {
     this(w, h);
     this.screenWidth = w;
     this.screenHeight = h;	// Allow 8px of padding on the top/bottom.
-    buildArray(arraySize, distr);
+    this.delayTime = delay;
+    buildArray(arraySize, distr, delay);
   } 
 		
-	public final void setOptions(int type, int arraySize, int distr) {
+	public final void setOptions(int type, int arraySize, int distr, int delay) {
 		this.sortType = type;
 		this.distribution = distr;
-		buildArray(arraySize, distr);
+    this.delayTime = delay;
+		buildArray(arraySize, distr, delay);
 	}
 	
 	
@@ -64,7 +67,7 @@ public class SortingWindow extends JPanel {
 	 * @param size the number of elements in the array (8-1264)
 	 * @param distr the distribution of the elements (see String[] distrOptions in GSortGUI.java)
    */
-	private void buildArray(int size, int distr) {
+	private void buildArray(int size, int distr, int delay) {
 	
 		this.arrayMembers = new ArrayMember[size];
 	 
@@ -174,7 +177,7 @@ public class SortingWindow extends JPanel {
 			}
 		}
     
-    this.memberList = new ArrayMemberList(this.arrayMembers);
+    this.memberList = new ArrayMemberList(this.arrayMembers, delay);
   }
     
 	/**

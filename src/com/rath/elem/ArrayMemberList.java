@@ -21,16 +21,17 @@ import static com.rath.elem.ArrayMember.STATE_WRITE;
 public class ArrayMemberList {
   
   private static final int DEFAULT_LIFE = 75;  // Dependent on monitor refresh rate?
-  private static final int DEFAULT_DELAY = 30;
   
   private final ArrayMember[] members;
   private final int[] memberStates;
   private final int[] markLife;
+  private final int delayTime;
   
-  public ArrayMemberList(ArrayMember[] list) {
+  public ArrayMemberList(ArrayMember[] list, int delay) {
     members = list;
     memberStates = new int[list.length];
     markLife = new int[list.length];
+    delayTime = delay;
   }
   
   public void swap(int a, int b) {
@@ -39,23 +40,30 @@ public class ArrayMemberList {
     members[b] = temp;
     mark(a, STATE_WRITE);
     mark(b, STATE_WRITE);
-    delay(DEFAULT_DELAY);
+    delay(delayTime);
   }
   
   // 1 if a > b, -1 if a < b, 0 if a = b
   public int compare(int a, int b) {
     mark(a, STATE_READ);
     mark(b, STATE_READ);
-    delay(DEFAULT_DELAY);
+    delay(delayTime);
     int valA = members[a].getValue();
     int valB = members[b].getValue();
     return (valA > valB) ? 1 : (valA == valB) ? 0 : -1;
   }
   
+  public int compareIndexWithConstant(int index, int num) {
+    mark(index, STATE_READ);
+    delay(delayTime);
+    int val = members[index].getValue();
+    return (val > num) ? 1 : (val == num) ? 0 : -1;
+  }
+  
   public void setValue(int index, int value) {
     members[index].setValue(value);
     mark(index, STATE_WRITE);
-    delay(DEFAULT_DELAY);
+    delay(delayTime);
   }
   
   public int getValue(int index) {
