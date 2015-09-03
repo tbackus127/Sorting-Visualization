@@ -44,7 +44,6 @@ public class MergeSort {
   }
   
   private void merge(int left, int mid, int right) {
-    System.err.println("Merge(" + left + ", " + mid + ", " + right + ")");
     int leftPointer = left;
     int rightPointer = mid;
     

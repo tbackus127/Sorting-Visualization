@@ -26,6 +26,7 @@ public class SortingWindow extends JPanel {
   private int sortType;
   private int distribution;
   private int delayTime;
+  private int maxMemberValue;
   
   /**
    * Default constructor. Will create a new blank SortingWindow.
@@ -178,6 +179,7 @@ public class SortingWindow extends JPanel {
 		}
     
     this.memberList = new ArrayMemberList(this.arrayMembers, delay);
+    this.maxMemberValue = memberList.getMaxValue();
   }
     
 	/**
@@ -202,7 +204,7 @@ public class SortingWindow extends JPanel {
 		
 		// Scale multiplier for extending the array to the full height
 		// getMaxValue() must be casted to a double for precision.
-		double scale = areaHeight / (double)memberList.getMaxValue();
+		double scale = areaHeight / (double)maxMemberValue;
 		
     // Draw each of the rectangles
 		for(int i = 0; i < this.memberList.getSize(); i++) {
