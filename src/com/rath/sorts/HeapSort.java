@@ -32,7 +32,7 @@
 
      while (last > 0) {
        //Swap the lowest value in the heap with the root.
-       swap(last--, 0);
+       array.swap(last--, 0);
        //Pack the heap.
        moveDown(0, last);
      }
@@ -62,34 +62,22 @@
        int child = root * 2 + 1;
        int temp = root;
        //If the childs value is less than that of the root. reassign temp.
-       if (array.getValue(temp) < array.getValue(child)) {
+       if (array.compare(temp, child) == -1) {
          temp = child;
        }
        //If we aren't at the end of the tree and the right child is bigger.
-       if (child + 1 <= last && array.getValue(temp) < array.getValue(child+1)) {
+       if (child + 1 <= last && array.compare(temp, child+1) == -1) {
          temp = child + 1;
        }
        //If they are equal at this point do nothing.
        if (temp == root) {
          return;
        } else { //Else swap them.
-          System.out.println("Swapping " + root + " " + temp);
-          swap(root, temp);
+          array.swap(root, temp);
           //Temp is the new root.
           root = temp;
        }
      }
-   }
-
-   /**
-    * @param  a, b: two indeces to be swaped.
-    */
-   public void swap(int a, int b) {
-
-     //Swap the values at the two indeces.
-     int temp = array.getValue(a);
-     array.setValue(a, array.getValue(b));
-     array.setValue(b, temp);
    }
 
 }
