@@ -66,13 +66,14 @@
          temp = child;
        }
        //If we aren't at the end of the tree and the right child is bigger.
-       if (child + 1 < last && array.getValue(temp) < array.getValue(child+1)) {
+       if (child + 1 <= last && array.getValue(temp) < array.getValue(child+1)) {
          temp = child + 1;
        }
        //If they are equal at this point do nothing.
        if (temp == root) {
          return;
        } else { //Else swap them.
+          System.out.println("Swapping " + root + " " + temp);
           swap(root, temp);
           //Temp is the new root.
           root = temp;
