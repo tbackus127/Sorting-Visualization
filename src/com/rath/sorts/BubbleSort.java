@@ -26,10 +26,14 @@ public class BubbleSort {
   */
   public void sort() {
     int n = array.getSize();
+
+    //True is swap has been done in the most recent pass.
     boolean needSwap = true;
     while (needSwap) {
+      //Set false to check for swap.
       needSwap = false;
       for (int j = 0; j < n - 1; j++) {
+        //If j is > j + 1 swap and make needSwap true.
         if (array.compare(j, j + 1) == 1) {
           array.swap(j,j+1);
           needSwap = true;
