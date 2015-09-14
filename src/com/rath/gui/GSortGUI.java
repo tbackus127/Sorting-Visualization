@@ -60,6 +60,9 @@ public class GSortGUI {
   public SortingWindow sortWin;
 	private ArrayMemberList memberList;
 	
+  private SwingWorker<Void, Void> sortWorker;
+  private SwingWorker<Void, Void> animationWorker;
+  
 	private int maxArraySize;
   
   /**
@@ -181,6 +184,7 @@ public class GSortGUI {
         
         // Perform the indicated sortint algorithm.
         executeSort();
+        guiPanel.repaint();
       }
     });
     guiPanel.add(this.buttonSort);
@@ -192,7 +196,8 @@ public class GSortGUI {
     this.buttonStop.addActionListener(new ActionListener() {
       
       public void actionPerformed(ActionEvent e) {
-        // DO STUFF
+        stopSort();
+        guiPanel.repaint();
       }
     });
     guiPanel.add(this.buttonStop);
@@ -203,7 +208,9 @@ public class GSortGUI {
    */
   private void executeSort() {
     int sortID = sortSelect.getSelectedIndex();
-      
+    this.buttonBuild.setEnabled(false);
+    this.buttonSort.setEnabled(false);
+    this.buttonStop.setEnabled(true);
     ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
       
@@ -212,7 +219,7 @@ public class GSortGUI {
       Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
       
       // Algorithm worker thread
-      SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+      sortWorker = new SwingWorker<Void, Void>() {
         
         @Override
         protected Void doInBackground() throws Exception {
@@ -228,23 +235,46 @@ public class GSortGUI {
           System.out.println("Sort completed.");
         }
       };
-      worker.execute();
+      sortWorker.execute();
       
-      // Refresh the panel while the algorithm is running
-      while(!worker.isDone()) {
-        sortWin.paintImmediately(0, 0, 1280, 720 - 32);               // TODO: <-- Un-hardcode this
-        memberList.tickLife();
-      }
-      
-      // Repaint again when finished
-      memberList.resetStates();
-      sortWin.repaint();
-      System.out.println("Repainting finished.");
+      animationWorker = new SwingWorker<Void, Void>() {
+        
+        @Override
+        protected Void doInBackground() throws Exception {
+          
+          // Refresh the panel while the algorithm is running
+          while(!sortWorker.isDone()) {
+            sortWin.paintImmediately(0, 0, 1280, 720 - 32);               // TODO: <-- Un-hardcode this
+            memberList.tickLife();
+          }
+          return null;
+        }
+        
+        @Override
+        protected void done() {
+          System.out.println("Repainting finished.");
+          memberList.resetStates();
+          buttonBuild.setEnabled(true);
+          buttonSort.setEnabled(false);
+          buttonStop.setEnabled(false);
+          sortWin.repaint();
+        }
+      };
+      animationWorker.execute();
       
     } catch (Exception e) {
       e.printStackTrace();
     }
     
+  }
+  
+  private void stopSort() {
+    sortWorker.cancel(true);
+    animationWorker.cancel(true);
+    this.buttonBuild.setEnabled(true);
+    this.buttonStop.setEnabled(false);
+    this.buttonSort.setEnabled(false);
+    sortWin.repaint();
   }
   
 	private String[] getAvailableSorts() {

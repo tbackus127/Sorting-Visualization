@@ -56,17 +56,8 @@ public class GraphicalSorter {
 /*
 
 - TODO List -
-> Create ArrayMember markType property, check markType before paintComponent(), color accordingly
-> Life ticks for marks, fade out color after each tick.
-> Set delay on ArrayMemberList read/write
-> Implement different delay times.
 > Sort Options JComboBox; find some way to implement it only in the sort class. Ex: Quicksort's pointers, Radix LSB/MSB
 > Show extra memory on bottom edge of screen?
-> Bubble Sort
-> Insertion Sort
-> Merge Sort
-> Heap Sort
-> Quick Sort
 > Bogo Sort
 > Dual-Pivot Quick Sort
 > N-Thread Quick Sort
@@ -74,7 +65,7 @@ public class GraphicalSorter {
 > Tim Sort
 > Counting Sort
 > Radix Sort
-> Shatter-Time Sort (multithreaded counting sort, fix errors with insertion sort)
+> Shatter-Time Sort
 
 
 Sorter Commands
@@ -86,11 +77,11 @@ Sorter Commands
     
 Mark Types
 > Read: Desaturated Red
-> Write: Yellow
+> Write: Green
 > Compare: Cyan
 > Active Partition: White
 > Inactive Partition: Gray
-> Pointer: Green
+> Pointer: Yellow
     
     
 */
