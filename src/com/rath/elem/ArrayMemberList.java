@@ -20,7 +20,7 @@ import static com.rath.elem.ArrayMember.STATE_WRITE;
  
 public class ArrayMemberList {
   
-  private static final int DEFAULT_LIFE = 75;  // Dependent on monitor refresh rate?
+  private static final int DEFAULT_LIFE = 30;
   
   private final ArrayMember[] members;
   private final int[] memberStates;

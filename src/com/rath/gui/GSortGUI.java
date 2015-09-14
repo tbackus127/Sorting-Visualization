@@ -55,6 +55,7 @@ public class GSortGUI {
   
   private JButton buttonBuild;
   private JButton buttonSort;
+  private JButton buttonStop;
   
   public SortingWindow sortWin;
 	private ArrayMemberList memberList;
@@ -183,6 +184,18 @@ public class GSortGUI {
       }
     });
     guiPanel.add(this.buttonSort);
+    
+    // Stop button
+    this.buttonStop = new JButton("Stop");
+    this.buttonStop.setToolTipText("Stops an already running algorithm.");
+    this.buttonStop.setEnabled(false);
+    this.buttonStop.addActionListener(new ActionListener() {
+      
+      public void actionPerformed(ActionEvent e) {
+        // DO STUFF
+      }
+    });
+    guiPanel.add(this.buttonStop);
   }
     
   /**
