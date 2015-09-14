@@ -39,6 +39,8 @@ public class BubbleSort {
           needSwap = true;
         }
       }
+      // Stop the algorithm from going through the already sorted portion
+      n--;
     }
   }
 }
