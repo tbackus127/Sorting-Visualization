@@ -10,6 +10,7 @@ import static com.rath.elem.ArrayMember.STATE_NONE;
 import static com.rath.elem.ArrayMember.STATE_READ;
 import static com.rath.elem.ArrayMember.STATE_COMPARE;
 import static com.rath.elem.ArrayMember.STATE_WRITE;
+import static com.rath.GraphicalSorter.TOPBAR_HEIGHT;
 
 import com.rath.elem.ArrayMember;
 import com.rath.elem.ArrayMemberList;
@@ -36,7 +37,8 @@ public class SortingWindow extends JPanel {
   public SortingWindow(int w, int h) {
     super();
     setSize(w, h);
-    setLocation(0, h);
+    setLayout(null);
+    setLocation(0, TOPBAR_HEIGHT);
     this.screenWidth = w;
     this.screenHeight = h;
     setBackground(Color.BLACK);
@@ -49,8 +51,6 @@ public class SortingWindow extends JPanel {
    */
   public SortingWindow(int w, int h, int type, int arraySize, int distr, int delay) {
     this(w, h);
-    this.screenWidth = w;
-    this.screenHeight = h;	// Allow 8px of padding on the top/bottom.
     this.delayTime = delay;
     buildArray(arraySize, distr, delay);
   } 

@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingWorker;
@@ -242,11 +243,24 @@ public class GSortGUI {
         @Override
         protected Void doInBackground() throws Exception {
           
-          // Refresh the panel while the algorithm is running
-          while(!sortWorker.isDone()) {
-            sortWin.paintImmediately(0, 0, 1280, 720 - 32);               // TODO: <-- Un-hardcode this
-            memberList.tickLife();
+          Timer repaintTimer = new Timer(0, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+              sortWin.paintImmediately(0, 0, 1280, 720 - 32);
+            }
+          });
+          
+          Timer lifeTimer = new Timer(0, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+              memberList.tickLife();
+            }
           }
+          
+          repaintTimer.start();
+          lifeTimer.start();
+          
+          // Need a block here
+          
+          repaintTimer.stop();
           return null;
         }
         
