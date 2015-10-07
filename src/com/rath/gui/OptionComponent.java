@@ -11,11 +11,33 @@ public class OptionComponent {
   
   public OptionComponent(String label, JComponent comp) {
     this.label = label;
-    this.labelComp = new JLabel(this.label);
+    if(label == null)
+      this.labelComp = null;
+    else
+      this.labelComp = new JLabel(this.label);
     this.comp = comp;
   }
   
   public JLabel getLabelComponent() {
     return this.labelComp;
   }
+  
+  public JComponent getComponent() {
+    return this.comp;
+  }
 }
+
+
+
+
+
+/*
+
+Only allowed:
+> Single checkboxes
+> Dropdown menus
+
+Use JComponent.isSelected() for true/false
+
+
+*/

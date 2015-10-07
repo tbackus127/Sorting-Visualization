@@ -1,8 +1,11 @@
 package com.rath.gui;
 
 import java.util.Random;
+
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 
 import static com.rath.elem.ArrayMember.STATE_INACTIVE;
@@ -37,8 +40,8 @@ public class SortingWindow extends JPanel {
   public SortingWindow(int w, int h) {
     super();
     setSize(w, h);
-    setLayout(null);
-    setLocation(0, TOPBAR_HEIGHT);
+    setLayout(new BorderLayout());
+    setLocation(0, TOPBAR_HEIGHT + TOP_MARGIN / 2);
     this.screenWidth = w;
     this.screenHeight = h;
     setBackground(Color.BLACK);

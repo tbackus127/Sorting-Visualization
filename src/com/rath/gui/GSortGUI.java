@@ -20,6 +20,7 @@ import javax.swing.Timer;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingWorker;
+import javax.swing.SwingConstants;
 
 import com.rath.gui.SortingWindow;
 import com.rath.elem.ArrayMemberList;
@@ -36,6 +37,9 @@ public class GSortGUI {
   
   // Toolbar panel
   private JPanel guiPanel;
+  
+  // Algorithm options panel
+  private JPanel optionsPanel;
   
   // Label and selection dropdown box
   private JLabel labelSelect;
@@ -63,6 +67,8 @@ public class GSortGUI {
   private JButton buttonSort;
   private JButton buttonStop;
   
+  private JButton buttonOptions;
+  
   public SortingWindow sortWin;
 	private ArrayMemberList memberList;
 	
@@ -87,6 +93,7 @@ public class GSortGUI {
     this.animationWidth = width;
     this.animationHeight = height - topbarHeight;
     
+    // GUI Panel Section
     guiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     guiPanel.setSize(width, topbarHeight);
     
@@ -167,7 +174,14 @@ public class GSortGUI {
           
           // Create a new sorting window with the indicated parameters, and add it to the main window. (w, h, sortType, arraySize, distribution)
           sortWin = new SortingWindow(width, height - topbarHeight, 0, desiredArraySize, distr, sortDelay);
-          frame.add(sortWin);
+          frame.add(sortWin, BorderLayout.NORTH);
+          
+          // Create a new options panel (initially hidden)
+          optionsPanel = new OptionsGUI(width, topbarHeight).getPanel();
+          optionsPanel.setVisible(false);
+          frame.add(optionsPanel);
+          
+          // Validate and repaint
           frame.validate();
           sortWin.validate();
           sortWin.repaint();
@@ -208,10 +222,25 @@ public class GSortGUI {
       
       public void actionPerformed(ActionEvent e) {
         stopSort();
-        guiPanel.repaint();
       }
     });
     guiPanel.add(this.buttonStop);
+    
+    // Options button (grey out if no options for current algorithm)
+    this.buttonOptions = new JButton("Options");
+    this.buttonOptions.setToolTipText("Configuration options for the selected algorithm, if any.");
+    this.buttonOptions.setEnabled(false);
+    this.buttonOptions.addActionListener(new ActionListener() {
+      
+      public void actionPerformed(ActionEvent e) {
+        guiPanel.setVisible(false);
+        optionsPanel.setVisible(true);
+        guiPanel.revalidate();
+        guiPanel.repaint();
+      }
+    });
+    this.buttonOptions.setHorizontalAlignment(SwingConstants.RIGHT);
+    guiPanel.add(this.buttonOptions);
   }
     
   /**
@@ -275,13 +304,12 @@ public class GSortGUI {
   
   private void stopSort() {
     this.repaintTimer.stop();
-    sortWorker.cancel(true);
-    memberList.resetStates();
+    this.sortWorker.cancel(true);
+    this.memberList.resetStates();
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);
     this.buttonSort.setEnabled(false);
-    // sortWin.repaint();
-    sortWin.paintImmediately(0, 0, animationWidth, animationHeight);
+    this.sortWin.repaint();
   }
   
 	private String[] getAvailableSorts() {

@@ -10,7 +10,7 @@ import com.rath.elem.ArrayMemberList;
 import com.rath.gui.OptionComponent;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 
 public class BubbleSort {
 
@@ -27,7 +27,7 @@ public class BubbleSort {
   public BubbleSort(ArrayMemberList argArray) {
     array = argArray;
     options = new OptionComponent[1];
-    options[0] = new OptionComponent("Smart iterations?: ", new JLabel("opts-here"));
+    options[0] = new OptionComponent("Smart iterations?: ", new JCheckBox());
   }
 
   /**
@@ -51,5 +51,9 @@ public class BubbleSort {
       // Stop the algorithm from going through the already sorted portion
       n--;
     }
+  }
+  
+  public OptionComponent[] getOptions() {
+    return this.options;
   }
 }
