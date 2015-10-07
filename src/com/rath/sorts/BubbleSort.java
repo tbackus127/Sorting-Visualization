@@ -7,10 +7,14 @@
 package com.rath.sorts;
 
 import com.rath.elem.ArrayMemberList;
+import com.rath.gui.OptionComponent;
 
 public class BubbleSort {
 
+  public int optionCount = 1;
+
   private final ArrayMemberList array;
+  private final OptionComponent[] options;
 
   /**
   * Default constructor
@@ -19,6 +23,8 @@ public class BubbleSort {
   */
   public BubbleSort(ArrayMemberList argArray) {
     array = argArray;
+    options = new OptionComponent[1];
+    options[0] = new OptionComponent();
   }
 
   /**
