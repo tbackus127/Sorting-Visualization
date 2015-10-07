@@ -30,7 +30,10 @@ public class GSortGUI {
 	private static final File SORT_DIR = new File("./com/rath/sorts/");
   private static final int TARGET_FRAMERATE = 60;
   private static final int FRAMERATE_DELAY = Math.round(1000 / TARGET_FRAMERATE);
-    
+  
+  private int animationWidth;
+  private int animationHeight;
+  
   // Toolbar panel
   private JPanel guiPanel;
   
@@ -80,6 +83,9 @@ public class GSortGUI {
   public GSortGUI(final int width, final int height, final int topbarHeight, final JFrame frame) {
 
     this.sortOptions = getAvailableSorts();
+    
+    this.animationWidth = width;
+    this.animationHeight = height - topbarHeight;
     
     guiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     guiPanel.setSize(width, topbarHeight);
@@ -224,7 +230,7 @@ public class GSortGUI {
       Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
       
       // Algorithm worker thread
-      sortWorker = new SwingWorker<Void, Void>() {
+      this.sortWorker = new SwingWorker<Void, Void>() {
         
         @Override
         protected Void doInBackground() throws Exception {
@@ -245,80 +251,21 @@ public class GSortGUI {
           sortWin.repaint();
         }
       };
-      sortWorker.execute();
+      this.sortWorker.execute();
       
       // Repainting timer
-      repaintTimer = new Timer(0, new ActionListener() {
+      this.repaintTimer = new Timer(0, new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
           if(sortWorker.isDone()) {
             repaintTimer.stop();
             return;
           }
-          sortWin.paintImmediately(0, 0, 1280, 720 - 32);
+          sortWin.paintImmediately(0, 0, animationWidth, animationHeight);
           memberList.tickLife();
         }
       });
-      repaintTimer.setDelay(FRAMERATE_DELAY);
-      repaintTimer.start();
-      
-      
-      
-/*      
-      
-      // Worker thread for animation
-      animationWorker = new SwingWorker<Void, Void>() {
-        
-        @Override
-        protected Void doInBackground() throws Exception {
-          
-          // Repainting timer
-          repaintTimer = new Timer(0, new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-              if(sortWorker.isDone()) {
-                repaintTimer.stop();
-                return;
-              }
-              sortWin.paintImmediately(0, 0, 1280, 720 - 32);
-            }
-          });
-          repaintTimer.setDelay(FRAMERATE_DELAY);
-          
-          // Life tick timer
-          lifeTimer = new Timer(0, new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-              if(sortWorker.isDone()) {
-                lifeTimer.stop();
-                return;
-              }
-              memberList.tickLife();
-            }
-          });
-          lifeTimer.setDelay(FRAMERATE_DELAY);
-          
-          // Start timers
-          repaintTimer.start();
-          lifeTimer.start();
-          return null;
-        }
-        
-        @Override
-        protected void done() {
-          System.out.println("Repainting finished.");
-          memberList.resetStates();
-          buttonBuild.setEnabled(true);
-          buttonSort.setEnabled(false);
-          buttonStop.setEnabled(false);
-          sortWin.repaint();
-        }
-      };
-      animationWorker.execute();
-      
-      
-      
-*/     
-      
-      
-      
+      this.repaintTimer.setDelay(FRAMERATE_DELAY);
+      this.repaintTimer.start();
       
     } catch (Exception e) {
       e.printStackTrace();
@@ -327,12 +274,13 @@ public class GSortGUI {
   }
   
   private void stopSort() {
+    this.repaintTimer.stop();
     sortWorker.cancel(true);
-    // animationWorker.cancel(true);
-    repaintTimer.stop();
+    memberList.resetStates();
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);
     this.buttonSort.setEnabled(false);
+    sortWin.revalidate();
     sortWin.repaint();
   }
   
