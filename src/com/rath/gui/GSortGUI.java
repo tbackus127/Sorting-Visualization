@@ -280,8 +280,8 @@ public class GSortGUI {
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);
     this.buttonSort.setEnabled(false);
-    sortWin.revalidate();
-    sortWin.repaint();
+    // sortWin.repaint();
+    sortWin.paintImmediately(0, 0, animationWidth, animationHeight);
   }
   
 	private String[] getAvailableSorts() {

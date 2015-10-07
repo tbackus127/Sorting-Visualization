@@ -9,6 +9,9 @@ package com.rath.sorts;
 import com.rath.elem.ArrayMemberList;
 import com.rath.gui.OptionComponent;
 
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+
 public class BubbleSort {
 
   public int optionCount = 1;
@@ -24,7 +27,7 @@ public class BubbleSort {
   public BubbleSort(ArrayMemberList argArray) {
     array = argArray;
     options = new OptionComponent[1];
-    options[0] = new OptionComponent();
+    options[0] = new OptionComponent("Smart iterations?: ", new JLabel("opts-here"));
   }
 
   /**
