@@ -28,6 +28,8 @@ public class GSortGUI {
     
   private static final String DEFAULT_ARRAY_SIZE = "48";
 	private static final File SORT_DIR = new File("./com/rath/sorts/");
+  private static final int TARGET_FRAMERATE = 60;
+  private static final int FRAMERATE_DELAY = Math.round(1000 / TARGET_FRAMERATE);
     
   // Toolbar panel
   private JPanel guiPanel;
@@ -62,7 +64,9 @@ public class GSortGUI {
 	private ArrayMemberList memberList;
 	
   private SwingWorker<Void, Void> sortWorker;
-  private SwingWorker<Void, Void> animationWorker;
+  // private SwingWorker<Void, Void> animationWorker;
+  
+  private Timer repaintTimer;
   
 	private int maxArraySize;
   
@@ -234,33 +238,66 @@ public class GSortGUI {
         @Override
         protected void done() {
           System.out.println("Sort completed.");
+          memberList.resetStates();
+          buttonBuild.setEnabled(true);
+          buttonSort.setEnabled(false);
+          buttonStop.setEnabled(false);
+          sortWin.repaint();
         }
       };
       sortWorker.execute();
       
+      // Repainting timer
+      repaintTimer = new Timer(0, new ActionListener() {
+        public void actionPerformed(ActionEvent evt) {
+          if(sortWorker.isDone()) {
+            repaintTimer.stop();
+            return;
+          }
+          sortWin.paintImmediately(0, 0, 1280, 720 - 32);
+          memberList.tickLife();
+        }
+      });
+      repaintTimer.setDelay(FRAMERATE_DELAY);
+      repaintTimer.start();
+      
+      
+      
+/*      
+      
+      // Worker thread for animation
       animationWorker = new SwingWorker<Void, Void>() {
         
         @Override
         protected Void doInBackground() throws Exception {
           
-          Timer repaintTimer = new Timer(0, new ActionListener() {
+          // Repainting timer
+          repaintTimer = new Timer(0, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+              if(sortWorker.isDone()) {
+                repaintTimer.stop();
+                return;
+              }
               sortWin.paintImmediately(0, 0, 1280, 720 - 32);
             }
           });
+          repaintTimer.setDelay(FRAMERATE_DELAY);
           
-          Timer lifeTimer = new Timer(0, new ActionListener() {
+          // Life tick timer
+          lifeTimer = new Timer(0, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+              if(sortWorker.isDone()) {
+                lifeTimer.stop();
+                return;
+              }
               memberList.tickLife();
             }
-          }
+          });
+          lifeTimer.setDelay(FRAMERATE_DELAY);
           
+          // Start timers
           repaintTimer.start();
           lifeTimer.start();
-          
-          // Need a block here
-          
-          repaintTimer.stop();
           return null;
         }
         
@@ -276,6 +313,13 @@ public class GSortGUI {
       };
       animationWorker.execute();
       
+      
+      
+*/     
+      
+      
+      
+      
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -284,7 +328,8 @@ public class GSortGUI {
   
   private void stopSort() {
     sortWorker.cancel(true);
-    animationWorker.cancel(true);
+    // animationWorker.cancel(true);
+    repaintTimer.stop();
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);
     this.buttonSort.setEnabled(false);
