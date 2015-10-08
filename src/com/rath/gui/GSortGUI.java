@@ -229,7 +229,6 @@ public class GSortGUI {
     // Options button (grey out if no options for current algorithm)
     this.buttonOptions = new JButton("Options");
     this.buttonOptions.setToolTipText("Configuration options for the selected algorithm, if any.");
-    this.buttonOptions.setEnabled(false);
     this.buttonOptions.addActionListener(new ActionListener() {
       
       public void actionPerformed(ActionEvent e) {

@@ -62,3 +62,11 @@ public class MergeSort {
     }
   }
 }
+
+/* 
+
+Options
+- Checkbox: Multithreaded?
+- Checkbox: In-place?
+
+*/

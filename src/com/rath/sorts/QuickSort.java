@@ -60,3 +60,19 @@ public class QuickSort {
     return first;
   }
 }
+
+/*
+
+Options:
+- Checkbox: Multithreaded
+- Dropdown: Pivot rule:
+    First
+    Last
+    Middle
+    Random
+    Median of Three
+    Median of Five
+- Checkbox: Ternary Mode
+- Checkbox: Dual-pivot?
+
+*/
