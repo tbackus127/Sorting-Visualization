@@ -5,6 +5,7 @@ import java.io.FilenameFilter;
 import java.io.FileNotFoundException;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.event.*;
@@ -177,7 +178,7 @@ public class GSortGUI {
           frame.add(sortWin, BorderLayout.NORTH);
           
           // Create a new options panel (initially hidden)
-          optionsPanel = new OptionsGUI(width, topbarHeight).getPanel();
+          optionsPanel = new OptionsGUI(GSortGUI.this, width, topbarHeight).getPanel();
           optionsPanel.setVisible(false);
           frame.add(optionsPanel);
           
@@ -226,6 +227,11 @@ public class GSortGUI {
     });
     guiPanel.add(this.buttonStop);
     
+    // Empty JLabel for spacing
+    JLabel spacer = new JLabel("");
+    spacer.setPreferredSize(new Dimension(370, 24));
+    guiPanel.add(spacer);
+    
     // Options button (grey out if no options for current algorithm)
     this.buttonOptions = new JButton("Options");
     this.buttonOptions.setToolTipText("Configuration options for the selected algorithm, if any.");
@@ -250,6 +256,7 @@ public class GSortGUI {
     this.buttonBuild.setEnabled(false);
     this.buttonSort.setEnabled(false);
     this.buttonStop.setEnabled(true);
+    this.buttonOptions.setEnabled(false);
     ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
       
@@ -276,6 +283,7 @@ public class GSortGUI {
           buttonBuild.setEnabled(true);
           buttonSort.setEnabled(false);
           buttonStop.setEnabled(false);
+          buttonOptions.setEnabled(true);
           sortWin.repaint();
         }
       };
@@ -308,6 +316,7 @@ public class GSortGUI {
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);
     this.buttonSort.setEnabled(false);
+    this.buttonOptions.setEnabled(true);
     this.sortWin.repaint();
   }
   
@@ -333,9 +342,12 @@ public class GSortGUI {
 		return result;
 	}
 	
-	// private boolean isValidSort(File f) {
-		
-	// }
+	public void closeOptionPanel() {
+    optionsPanel.setVisible(false);
+    guiPanel.setVisible(true);
+    guiPanel.revalidate();
+    guiPanel.repaint();
+  }
 	
   /**
    * Gets a reference to the toolbar JPanel.
