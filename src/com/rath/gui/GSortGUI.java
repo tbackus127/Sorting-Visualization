@@ -362,20 +362,10 @@ public class GSortGUI {
 
 /* SCRATCH PAD **
 
-jcomponent.setToolTipText("");
-
-Algorithm: 	[SELECT BOX]			
-		- BubbleSort
-		- Selection Sort
-		- Insertion Sort
-		- QuickSort
-		- QuickSort (multithreaded)
-		- Dual-Pivot Quick Sort (multithreaded)
-		- Merge Sort (multithreaded)
+Algorithm: 	[SELECT BOX]
 		- Cocktail Shaker Sort
 		- Bogo Sort
 		- Shell Sort
-		- HeapSort
 		- TimSort
 		- SleepSort
 		- Radix Sort
@@ -383,5 +373,7 @@ Algorithm: 	[SELECT BOX]
 		- Comb Sort
 		- Stooge Sort
 		- LazySort (enables user to drag and drop values)
+    - Counting Sort
+    - Shatter-Time Sort
 		
 */
