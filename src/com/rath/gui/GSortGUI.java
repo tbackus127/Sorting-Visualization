@@ -296,7 +296,8 @@ public class GSortGUI {
             repaintTimer.stop();
             return;
           }
-          sortWin.paintImmediately(0, 0, animationWidth, animationHeight);
+          // sortWin.paintImmediately(0, 0, animationWidth, animationHeight);
+          sortWin.repaint();
           memberList.tickLife();
         }
       });
