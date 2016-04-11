@@ -263,7 +263,7 @@ public class GSortGUI {
     //-------------------------------------------------------------------------------------------------------------------------
     // Empty JLabel for spacing
     JLabel spacer = new JLabel("");
-    spacer.setPreferredSize(new Dimension(370, 24));
+    spacer.setPreferredSize(new Dimension(360, 24));
     guiPanel.add(spacer);
     
     //-------------------------------------------------------------------------------------------------------------------------
@@ -271,7 +271,7 @@ public class GSortGUI {
     optionsPanelObj = new OptionsGUI(GSortGUI.this, width, topbarHeight);
     optionsPanel = optionsPanelObj.getPanel();
     optionsPanel.setVisible(false);
-    frame.add(optionsPanel);
+    frame.add(optionsPanel, BorderLayout.PAGE_START);
     
     //-------------------------------------------------------------------------------------------------------------------------
     // Options button (grey out if no options for current algorithm)
