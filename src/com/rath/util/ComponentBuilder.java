@@ -1,43 +1,43 @@
-
 package com.rath.util;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.TreeMap;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+
+import com.rath.gui.OptionComponent;
 
 public class ComponentBuilder {
-
-  /**
-   * Builds a child of a JComponent from a string.
-   * Valid syntaxes:
-   *   "chk;<LABEL>" - Creates a JCheckBox with label <LABEL>
-   *   "sel;<OPTS>" - Creats a JComboBox with options <OPTS> (delimited by |'s)
-   * @param s the string to build a component from
-   * @return an array of a child of a JComponent
-   */
-  public static List<JComponent> build(String s) {
-    System.err.println("ComponentBuilder.build() on " + s);
-    String[] opts = s.split(";");
-    
-    List<JComponent> comp = new ArrayList<JComponent>();
-    
-    switch(opts[0]) {
-      case "chk":
-        comp.add(new JCheckBox(opts[1]));
-      break;
-      case "sel":
-        comp.add(new JLabel(opts[1]));
-        String[] selOpts = opts[1].split("\\|");
-        comp.add(new JComboBox<String>(selOpts));
-      break;
-      default:
-        throw new IllegalArgumentException("Illegal option syntax");
+  
+  public static TreeMap<String, OptionComponent> build(String[] opts) {
+    TreeMap<String, OptionComponent> result = new TreeMap<String, OptionComponent>();
+    for(int i = 0; i < opts.length; i++) {
+      String optString = opts[i];
+      String[] optTokens = optString.split(";");
+      
+      JComponent jcmp = null;
+      OptionComponent comp = null;
+      String key = optTokens[0];
+      
+      // Type
+      switch(optTokens[1]) {
+        case "chk":
+          jcmp = new JCheckBox(optTokens[2]);
+          comp = new OptionComponent(jcmp);
+        break;
+        case "sel":
+          String[] choices = optTokens[2].split("\\|");
+          jcmp = new JComboBox<String>(choices);
+          comp = new OptionComponent(optTokens[2], jcmp);
+        break;
+        default:
+          throw new IllegalArgumentException("Invalid syntax");
+      }
+      
+      result.put(key, comp);
     }
     
-    return comp;
+    return result;
   }
 }

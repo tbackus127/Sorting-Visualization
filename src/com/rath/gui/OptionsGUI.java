@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-import com.rath.util.ComponentBuilder;
-
 public class OptionsGUI {
   
   private final JPanel optionsPanel;
@@ -32,13 +30,9 @@ public class OptionsGUI {
   
   public void addOptions(String[] optStr) {
     System.err.println("OptionsGUI.addOptions()");
-    for(int i = 0; i < optStr.length; i++) {
-      String opt = optStr[i];
-      List<JComponent> comp = ComponentBuilder.build(opt);
-      for(JComponent jc : comp) {
-        optionsPanel.add(jc);
-      }
-    }
+    
+    // TODO
+    
     optionsPanel.validate();
     optionsPanel.repaint();
     

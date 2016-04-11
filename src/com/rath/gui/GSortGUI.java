@@ -313,7 +313,7 @@ public class GSortGUI {
   private void reloadOptions() {
     RathSort inst = (RathSort) sortInstance;
     System.err.println("Options: " + Arrays.toString(inst.getOptions()));
-    optionsPanelObj.addOptions(inst.getOptions());
+    // optionsPanelObj.addOptions(inst.getOptions());
   }
   
   /**
@@ -430,22 +430,3 @@ public class GSortGUI {
 		return this.guiPanel;
   }
 }
-
-
-
-/* SCRATCH PAD **
-
-Algorithm: 	[SELECT BOX]
-		- Cocktail Shaker Sort
-		- Bogo Sort
-		- Shell Sort
-		- TimSort
-		- SleepSort
-		- Radix Sort
-		- Bitonic Sort
-		- Comb Sort
-		- Stooge Sort
-		- LazySort (enables user to drag and drop values)
-    - Shatter-Time Sort
-		
-*/

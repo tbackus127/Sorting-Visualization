@@ -2,12 +2,18 @@ package com.rath.gui;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 
 public class OptionComponent {
   
   private final String label;
   private final JLabel labelComp;
   private final JComponent comp;
+  
+  public OptionComponent(JComponent comp) {
+    this(null, comp);
+  }
   
   public OptionComponent(String label, JComponent comp) {
     this.label = label;
@@ -18,12 +24,24 @@ public class OptionComponent {
     this.comp = comp;
   }
   
-  public JLabel getLabelComponent() {
+  public JLabel getLabel() {
     return this.labelComp;
   }
   
   public JComponent getComponent() {
     return this.comp;
+  }
+  
+  public boolean val() {
+    if(comp instanceof JCheckBox)
+      return ((JCheckBox)comp).isSelected();
+    throw new RuntimeException("val() called on non-JCheckBox component!");
+  }
+  
+  public int sel() {
+    if(comp instanceof JComboBox)
+      return ((JComboBox)comp).getSelectedIndex();
+    throw new RuntimeException("sel() called on non-JComboBox component!");
   }
 }
 
