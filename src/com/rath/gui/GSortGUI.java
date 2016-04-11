@@ -313,7 +313,7 @@ public class GSortGUI {
   private void reloadOptions() {
     RathSort inst = (RathSort) sortInstance;
     System.err.println("Options: " + Arrays.toString(inst.getOptions()));
-    // optionsPanelObj.addOptions(inst.getOptions());
+    optionsPanelObj.addOptions(inst.getOptions());
   }
   
   /**

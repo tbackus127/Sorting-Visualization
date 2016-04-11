@@ -13,10 +13,18 @@ public class OptionsGUI {
   
   private final JPanel optionsPanel;
   
+  /**
+   * Default constructor
+   * @param gui reference to main GUI panel
+   * @param width the width of the window
+   * @param height the height of the top bar
+   */
   public OptionsGUI(GSortGUI gui, int width, int height) {
     optionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     optionsPanel.setSize(width, height);
     
+    //-------------------------------------------------------------------------------------------------------------------------
+    // Back button
     JButton buttonBack = new JButton("<");
     buttonBack.setToolTipText("Return to the main menu.");
     buttonBack.addActionListener(new ActionListener() {
@@ -25,13 +33,21 @@ public class OptionsGUI {
       }
     });
     optionsPanel.add(buttonBack);
+    //-------------------------------------------------------------------------------------------------------------------------
+    
     System.err.println("Options GUI created.");
   }
   
-  public void addOptions(String[] optStr) {
+  /**
+   * Adds the OptionComponents to the options panel
+   * @param opts the array of OptionComponents to add
+   */
+  public void addOptions(OptionComponent[] opts) {
     System.err.println("OptionsGUI.addOptions()");
     
-    // TODO
+    for(int i = 0; i < opts.length; i++) {
+      optionsPanel.add(opts[i].getComponent());
+    }
     
     optionsPanel.validate();
     optionsPanel.repaint();
