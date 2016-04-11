@@ -29,7 +29,7 @@ import com.rath.elem.ArrayMemberList;
 public class GSortGUI {
     
   private static final String DEFAULT_ARRAY_SIZE = "48";
-	private static final File SORT_DIR = new File("./com/rath/sorts/");
+  private static final File SORT_DIR = new File("./com/rath/sorts/");
   private static final int TARGET_FRAMERATE = 60;
   private static final int FRAMERATE_DELAY = Math.round(1000 / TARGET_FRAMERATE);
   
@@ -61,6 +61,7 @@ public class GSortGUI {
   private JLabel labelSpeeds;
   private JComboBox speedSelect;
   private String[] speedOptions = {"Very slow", "Slow", "Normal", "Fast", "Very fast"};
+  private int sortDelay;
   
   private JLabel labelSpacing;
   
@@ -78,6 +79,12 @@ public class GSortGUI {
   
   private Timer repaintTimer;
   
+  private int sortID;
+  private ClassLoader classLoader;
+  private Class<?> sortClass;
+  private Constructor sortConstr;
+  private Object sortInstance;
+  
 	private int maxArraySize;
   
   /**
@@ -94,6 +101,8 @@ public class GSortGUI {
     this.animationWidth = width;
     this.animationHeight = height - topbarHeight;
     
+    classLoader = GSortGUI.class.getClassLoader();
+    
     // GUI Panel Section
     guiPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     guiPanel.setSize(width, topbarHeight);
@@ -105,7 +114,34 @@ public class GSortGUI {
     // Dropdown: Sort select
     this.sortSelect = new JComboBox<String>(this.sortOptions);
     this.sortSelect.setToolTipText("Selects which sorting algorithm to use.");
+    this.sortSelect.addActionListener(new ActionListener () {
+      
+      public void actionPerformed(ActionEvent actEvt) {
+        System.err.println("Sort select changed");
+        sortID = sortSelect.getSelectedIndex();
+        
+        try {
+          sortClass = classLoader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
+          sortConstr = sortClass.getConstructor(ArrayMemberList.class);
+          sortInstance = sortConstr.newInstance(memberList);
+          
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+      
+    });
     guiPanel.add(this.sortSelect);
+    // init
+    sortID = sortSelect.getSelectedIndex();
+    try {
+      sortClass = classLoader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
+      sortConstr = sortClass.getConstructor(ArrayMemberList.class);
+      sortInstance = sortConstr.newInstance(memberList);
+    } catch( Exception e) {
+      e.printStackTrace();
+    }
+    
     
     // Label: Size
     this.labelArraySize = new JLabel("Array size:");
@@ -131,9 +167,29 @@ public class GSortGUI {
     guiPanel.add(this.labelSpeeds);
     
     // Dropdown: Speed
+    sortDelay = 10;
     this.speedSelect = new JComboBox<String>(this.speedOptions);
     this.speedSelect.setSelectedItem("Normal");
     this.speedSelect.setToolTipText("Selects the speed of execution (operation delay):\n - Very slow: 50ms\n - Slow: 30ms\n - Normal: 10ms\n - Fast: 3ms\n - Very fast: 1ms");
+    this.speedSelect.addActionListener(new ActionListener() {
+      
+      public void actionPerformed(ActionEvent ev) {
+        // Calculate delays
+        // 0 Very slow = 50ms
+        // 1 Slow = 30ms
+        // 2 Normal = 10ms
+        // 3 Fast = 3ms
+        // 4 Very Fast = 1ms
+        System.err.println("Sort delay changed");
+        switch(speedSelect.getSelectedIndex()) {
+          case 0: sortDelay = 50; break;
+          case 1: sortDelay = 30; break;
+          case 3: sortDelay = 3; break;
+          case 4: sortDelay = 1; break;
+          default: sortDelay = 10;
+        }
+      }
+    });
     guiPanel.add(this.speedSelect);
     
     // Label for spacing
@@ -157,21 +213,6 @@ public class GSortGUI {
           // If there's already a sorting window, remove it
           if(sortWin != null)
             frame.remove(sortWin);
-          
-          // Calculate delays
-          // 0 Very slow = 50ms
-          // 1 Slow = 30ms
-          // 2 Normal = 10ms
-          // 3 Fast = 3ms
-          // 4 Very Fast = 1ms
-          int sortDelay = 10;
-          switch(speedSelect.getSelectedIndex()) {
-            case 0: sortDelay = 50; break;
-            case 1: sortDelay = 30; break;
-            case 3: sortDelay = 3; break;
-            case 4: sortDelay = 1; break;
-            default: sortDelay = 10;
-          }
           
           // Create a new sorting window with the indicated parameters, and add it to the main window. (w, h, sortType, arraySize, distribution)
           sortWin = new SortingWindow(width, height - topbarHeight, 0, desiredArraySize, distr, sortDelay);
@@ -243,6 +284,7 @@ public class GSortGUI {
         guiPanel.revalidate();
         guiPanel.repaint();
       }
+      
     });
     this.buttonOptions.setHorizontalAlignment(SwingConstants.RIGHT);
     guiPanel.add(this.buttonOptions);
@@ -252,27 +294,30 @@ public class GSortGUI {
    * Performs the selected sort from JComboBox sortSelect.
    */
   private void executeSort() {
-    int sortID = sortSelect.getSelectedIndex();
+    // int sortID = sortSelect.getSelectedIndex();
     this.buttonBuild.setEnabled(false);
     this.buttonSort.setEnabled(false);
     this.buttonStop.setEnabled(true);
     this.buttonOptions.setEnabled(false);
-    ClassLoader loader = GSortGUI.class.getClassLoader();
+    // ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
       
-      // Class<?> sortClass = loader.loadClass("com.rath.sorts.SelectionSort");
-      Class<?> sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
-      Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
+      // Class<?> sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
+      // Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
+      // sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
+      // sortConstr = sortClass.getConstructor(ArrayMemberList.class);
       
       // Algorithm worker thread
       this.sortWorker = new SwingWorker<Void, Void>() {
         
         @Override
         protected Void doInBackground() throws Exception {
-          Object sortInstance = constr.newInstance(memberList);
+          // sortInstance = constr.newInstance(memberList);
+          Object sortInst = sortConstr.newInstance(memberList);
           Method sortMethod = sortClass.getMethod("sort");
+          System.err.println(sortMethod);
           System.out.println("Loaded successfully.");
-          sortMethod.invoke(sortInstance);
+          sortMethod.invoke(sortInst);
           return null;
         }
         
@@ -325,7 +370,7 @@ public class GSortGUI {
 		File dir = SORT_DIR;
 		File[] sortFiles = dir.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".class");
+				return name.endsWith(".class") && !name.startsWith("Rath");
 			}
 		});
 		

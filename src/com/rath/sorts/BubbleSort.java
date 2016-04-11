@@ -7,17 +7,12 @@
 package com.rath.sorts;
 
 import com.rath.elem.ArrayMemberList;
-import com.rath.gui.OptionComponent;
 
-import javax.swing.JComponent;
-import javax.swing.JCheckBox;
+public class BubbleSort extends RathSort {
 
-public class BubbleSort {
+  private String[] opts = {"Smart iterations?;yn"};
 
-  public int optionCount = 1;
-
-  private final ArrayMemberList array;
-  private final OptionComponent[] options;
+  // private final ArrayMemberList array;
 
   /**
   * Default constructor
@@ -26,8 +21,6 @@ public class BubbleSort {
   */
   public BubbleSort(ArrayMemberList argArray) {
     array = argArray;
-    options = new OptionComponent[1];
-    options[0] = new OptionComponent("Smart iterations?: ", new JCheckBox());
   }
 
   /**
@@ -35,7 +28,7 @@ public class BubbleSort {
   */
   public void sort() {
     int n = array.getSize();
-
+    System.err.println("Called BubbleSort:sort()");
     //True is swap has been done in the most recent pass.
     boolean needSwap = true;
     while (needSwap) {
@@ -53,7 +46,7 @@ public class BubbleSort {
     }
   }
   
-  public OptionComponent[] getOptions() {
-    return this.options;
+  public String[] getOptions() {
+    return opts;
   }
 }

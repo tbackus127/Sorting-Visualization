@@ -24,10 +24,11 @@ public class OptionsGUI {
       }
     });
     optionsPanel.add(buttonBack);
+    
   }
   
-  public void addComponent(OptionComponent comp) {
-    this.optionsPanel.add(comp.getLabelComponent());
+  public void addOptions(String[] optStr) {
+    
   }
   
   public JPanel getPanel() {
