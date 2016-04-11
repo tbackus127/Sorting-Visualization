@@ -75,7 +75,6 @@ public class GSortGUI {
 	private ArrayMemberList memberList;
 	
   private SwingWorker<Void, Void> sortWorker;
-  // private SwingWorker<Void, Void> animationWorker;
   
   private Timer repaintTimer;
   
@@ -111,38 +110,25 @@ public class GSortGUI {
     this.labelSelect = new JLabel("Sort:");
     guiPanel.add(this.labelSelect);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Dropdown: Sort select
     this.sortSelect = new JComboBox<String>(this.sortOptions);
     this.sortSelect.setToolTipText("Selects which sorting algorithm to use.");
+    
+    // Sort select listener
     this.sortSelect.addActionListener(new ActionListener () {
       
       public void actionPerformed(ActionEvent actEvt) {
-        System.err.println("Sort select changed");
-        sortID = sortSelect.getSelectedIndex();
         
-        try {
-          sortClass = classLoader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
-          sortConstr = sortClass.getConstructor(ArrayMemberList.class);
-          sortInstance = sortConstr.newInstance(memberList);
-          
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        System.err.println("Sort select changed");
+        reloadSort();
       }
       
     });
     guiPanel.add(this.sortSelect);
-    // init
-    sortID = sortSelect.getSelectedIndex();
-    try {
-      sortClass = classLoader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
-      sortConstr = sortClass.getConstructor(ArrayMemberList.class);
-      sortInstance = sortConstr.newInstance(memberList);
-    } catch( Exception e) {
-      e.printStackTrace();
-    }
+    reloadSort();
     
-    
+    //-------------------------------------------------------------------------------------------------------------------------
     // Label: Size
     this.labelArraySize = new JLabel("Array size:");
     guiPanel.add(this.labelArraySize);
@@ -153,6 +139,7 @@ public class GSortGUI {
     this.arraySize.setToolTipText("Specifies how many values will be sorted (8-" + (width - 16) + ").");
     guiPanel.add(this.arraySize);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Label: Distr
     this.labelDistr = new JLabel("Distribution:");
     guiPanel.add(this.labelDistr);
@@ -162,6 +149,7 @@ public class GSortGUI {
     this.distrSelect.setToolTipText("Selects how the array is initially arranged.");
     guiPanel.add(this.distrSelect);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Label: Speed
     this.labelSpeeds = new JLabel("Sort speed:");
     guiPanel.add(this.labelSpeeds);
@@ -192,10 +180,12 @@ public class GSortGUI {
     });
     guiPanel.add(this.speedSelect);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Label for spacing
     this.labelSpacing = new JLabel(" ");
     guiPanel.add(this.labelSpacing);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Build button
     this.buttonBuild = new JButton("Build");
     this.buttonBuild.setToolTipText("Creates the array to be sorted and renders it as a series of bars at a height corresponding to their value.");
@@ -240,6 +230,7 @@ public class GSortGUI {
     });
     guiPanel.add(this.buttonBuild);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Sort button
     this.buttonSort = new JButton("Sort");
     this.buttonSort.setToolTipText("Begins the sorting process on the array. ** Build must be clicked before sorting! **");
@@ -249,13 +240,14 @@ public class GSortGUI {
       // On click:
       public void actionPerformed(ActionEvent e)  {
         
-        // Perform the indicated sortint algorithm.
+        // Perform the indicated sorting algorithm.
         executeSort();
         guiPanel.repaint();
       }
     });
     guiPanel.add(this.buttonSort);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Stop button
     this.buttonStop = new JButton("Stop");
     this.buttonStop.setToolTipText("Stops an already running algorithm.");
@@ -268,11 +260,13 @@ public class GSortGUI {
     });
     guiPanel.add(this.buttonStop);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Empty JLabel for spacing
     JLabel spacer = new JLabel("");
     spacer.setPreferredSize(new Dimension(370, 24));
     guiPanel.add(spacer);
     
+    //-------------------------------------------------------------------------------------------------------------------------
     // Options button (grey out if no options for current algorithm)
     this.buttonOptions = new JButton("Options");
     this.buttonOptions.setToolTipText("Configuration options for the selected algorithm, if any.");
@@ -289,30 +283,37 @@ public class GSortGUI {
     this.buttonOptions.setHorizontalAlignment(SwingConstants.RIGHT);
     guiPanel.add(this.buttonOptions);
   }
+  
+  /**
+   * Reloads the sorting algorithm to invoke
+   */
+  private void reloadSort() {
+    sortID = sortSelect.getSelectedIndex();
+    try {
+      sortClass = classLoader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
+      sortConstr = sortClass.getConstructor(ArrayMemberList.class);
+      sortInstance = sortConstr.newInstance(memberList);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
     
   /**
    * Performs the selected sort from JComboBox sortSelect.
    */
   private void executeSort() {
-    // int sortID = sortSelect.getSelectedIndex();
     this.buttonBuild.setEnabled(false);
     this.buttonSort.setEnabled(false);
     this.buttonStop.setEnabled(true);
     this.buttonOptions.setEnabled(false);
-    // ClassLoader loader = GSortGUI.class.getClassLoader();
     try {
       
-      // Class<?> sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
-      // Constructor constr = sortClass.getConstructor(ArrayMemberList.class);
-      // sortClass = loader.loadClass("com.rath.sorts." + sortSelect.getItemAt(sortID));
-      // sortConstr = sortClass.getConstructor(ArrayMemberList.class);
       
       // Algorithm worker thread
       this.sortWorker = new SwingWorker<Void, Void>() {
         
         @Override
         protected Void doInBackground() throws Exception {
-          // sortInstance = constr.newInstance(memberList);
           Object sortInst = sortConstr.newInstance(memberList);
           Method sortMethod = sortClass.getMethod("sort");
           System.err.println(sortMethod);
@@ -341,7 +342,6 @@ public class GSortGUI {
             repaintTimer.stop();
             return;
           }
-          // sortWin.paintImmediately(0, 0, animationWidth, animationHeight);
           sortWin.repaint();
           memberList.tickLife();
         }
@@ -355,9 +355,13 @@ public class GSortGUI {
     
   }
   
+  /**
+   * Stops the currently running algorithm
+   */
   private void stopSort() {
     this.repaintTimer.stop();
     this.sortWorker.cancel(true);
+    this.sortWorker = null;
     this.memberList.resetStates();
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);
@@ -366,6 +370,10 @@ public class GSortGUI {
     this.sortWin.repaint();
   }
   
+  /**
+   * Gets all available algorithms (must be precompiled .class files)
+   * @return a String array of each class, minus ".class"
+   */
 	private String[] getAvailableSorts() {
 		File dir = SORT_DIR;
 		File[] sortFiles = dir.listFiles(new FilenameFilter() {
@@ -388,6 +396,9 @@ public class GSortGUI {
 		return result;
 	}
 	
+  /**
+   * Closes the options panel and returns to the main one
+   */
 	public void closeOptionPanel() {
     optionsPanel.setVisible(false);
     guiPanel.setVisible(true);
@@ -419,7 +430,6 @@ Algorithm: 	[SELECT BOX]
 		- Comb Sort
 		- Stooge Sort
 		- LazySort (enables user to drag and drop values)
-    - Counting Sort
     - Shatter-Time Sort
 		
 */
