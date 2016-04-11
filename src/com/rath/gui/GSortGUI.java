@@ -1,5 +1,7 @@
 package com.rath.gui;
 
+import java.util.Arrays;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.FileNotFoundException;
@@ -310,7 +312,7 @@ public class GSortGUI {
    */
   private void reloadOptions() {
     RathSort inst = (RathSort) sortInstance;
-    System.err.println("Options: " + inst.getOptions());
+    System.err.println("Options: " + Arrays.toString(inst.getOptions()));
     optionsPanelObj.addOptions(inst.getOptions());
   }
   
@@ -376,7 +378,6 @@ public class GSortGUI {
   private void stopSort() {
     this.repaintTimer.stop();
     this.sortWorker.cancel(true);
-    this.sortWorker = null;
     this.memberList.resetStates();
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);

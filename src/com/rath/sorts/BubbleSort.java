@@ -10,7 +10,7 @@ import com.rath.elem.ArrayMemberList;
 
 public class BubbleSort extends RathSort {
 
-  private String[] opts = {"Smart iterations?;yn"};
+  private String[] opts = {"chk;Smart iterations?"};
 
   // private final ArrayMemberList array;
 
