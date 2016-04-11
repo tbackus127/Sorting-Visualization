@@ -1,6 +1,7 @@
 package com.rath.util;
 
 import java.util.TreeMap;
+import java.util.Arrays;
 
 import javax.swing.JComponent;
 import javax.swing.JCheckBox;
@@ -27,14 +28,16 @@ public class ComponentBuilder {
           comp = new OptionComponent(jcmp);
         break;
         case "sel":
-          String[] choices = optTokens[2].split("\\|");
+          String[] optArgs = optTokens[2].split("\\|");
+          String[] choices = Arrays.copyOfRange(optArgs, 1, optArgs.length);
           jcmp = new JComboBox<String>(choices);
-          comp = new OptionComponent(optTokens[2], jcmp);
+          comp = new OptionComponent(optArgs[0], jcmp);
         break;
         default:
           throw new IllegalArgumentException("Invalid syntax");
       }
       
+      System.err.println("Built " + comp + " with key=" + key);
       result.put(key, comp);
     }
     

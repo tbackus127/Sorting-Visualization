@@ -332,17 +332,18 @@ public class GSortGUI {
         
         @Override
         protected Void doInBackground() throws Exception {
-          Object sortInst = sortConstr.newInstance(memberList);
+          // Object sortInst = sortConstr.newInstance(memberList);
+          sortInstance = sortConstr.newInstance(memberList);
           Method sortMethod = sortClass.getMethod("sort");
           System.out.println("Loaded successfully.");
-          sortMethod.invoke(sortInst);
+          sortMethod.invoke(sortInstance);
           return null;
         }
         
         @Override
         protected void done() {
-          System.out.println("Sort completed.");
           memberList.resetStates();
+          System.out.println("Sort completed.");
           buttonBuild.setEnabled(true);
           buttonSort.setEnabled(false);
           buttonStop.setEnabled(false);
@@ -378,6 +379,7 @@ public class GSortGUI {
   private void stopSort() {
     this.repaintTimer.stop();
     this.sortWorker.cancel(true);
+    ((RathSort)this.sortInstance).stop();
     this.memberList.resetStates();
     this.buttonBuild.setEnabled(true);
     this.buttonStop.setEnabled(false);

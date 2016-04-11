@@ -43,6 +43,10 @@ public class OptionComponent {
       return ((JComboBox)comp).getSelectedIndex();
     throw new RuntimeException("sel() called on non-JComboBox component!");
   }
+  
+  public String toString() {
+    return "[Opt:" + label + ":" + System.identityHashCode(comp) + "]";
+  }
 }
 
 

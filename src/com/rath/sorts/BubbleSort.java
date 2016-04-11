@@ -28,18 +28,23 @@ public class BubbleSort extends RathSort {
     //    Type: The type of component:
     //      "chk": JCheckBox
     //      "sel": JComboBox
-    //    Choices: A String delimited by vertical bars (|) with each choice for a JComboBox
-    //       (only the first is used for a JCheckBox)
-    optsString = new String[]{"smart;chk;Smart iterations?"};
+    //    Choices: A String delimited by vertical bars (|) with the first being its label. Each subsequent
+    //      token will be a separate choice in the JComboBox
+    optsString = new String[]{"smart;chk;Smart iterations?", "test;sel;Label|Choice1|Choice2|Choice3"};
     enableOptions();
   }
 
   /**
   * Preforms a BubbleSort algorithm.
+  * In order enable interrupting the algorithm with the [Stop] button, sort() must call super.sort().
   */
+  @Override
   public void sort() {
+    super.sort();
+    
     int n = array.getSize();
     
+    System.err.println("Sel: " + opt.get("test").sel());
     //True is swap has been done in the most recent pass.
     boolean needSwap = true;
     while (needSwap) {
@@ -59,6 +64,8 @@ public class BubbleSort extends RathSort {
       // To get an OptionComponent's value, use "opt.get(<Key>)" to access it from the map,
       //    and use val() if it is a JCheckBox (returns a boolean), or sel() to get the selected
       //    index (returns an int).
+      OptionComponent c = opt.get("smart");
+      System.err.println(c);
       if(opt.get("smart").val()) {
         n--;
       }

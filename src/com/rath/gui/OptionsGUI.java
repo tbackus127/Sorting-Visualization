@@ -46,7 +46,10 @@ public class OptionsGUI {
     System.err.println("OptionsGUI.addOptions()");
     
     for(int i = 0; i < opts.length; i++) {
-      optionsPanel.add(opts[i].getComponent());
+      OptionComponent cmp = opts[i];
+      if(cmp.getLabel() != null)
+        optionsPanel.add(cmp.getLabel());
+      optionsPanel.add(cmp.getComponent());
     }
     
     optionsPanel.validate();
