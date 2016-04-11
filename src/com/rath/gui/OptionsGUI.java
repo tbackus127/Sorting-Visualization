@@ -24,11 +24,11 @@ public class OptionsGUI {
       }
     });
     optionsPanel.add(buttonBack);
-    
+    System.err.println("Options GUI created.");
   }
   
   public void addOptions(String[] optStr) {
-    
+    System.err.println("OptionsGUI.addOptions()");
   }
   
   public JPanel getPanel() {

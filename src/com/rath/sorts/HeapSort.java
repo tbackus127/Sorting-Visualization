@@ -8,9 +8,9 @@
 
  import com.rath.elem.ArrayMemberList;
 
- public class HeapSort {
+ public class HeapSort extends RathSort {
 
-   private final ArrayMemberList array;
+   // private final ArrayMemberList array;
 
    /**
    * Default constructor

@@ -12,9 +12,9 @@ package com.rath.sorts;
 import com.rath.elem.ArrayMemberList;
 import java.util.Arrays;
 
-public class CountingSort {
+public class CountingSort extends RathSort {
   
-  private final ArrayMemberList array;
+  // private final ArrayMemberList array;
   
   /**
    * Default constructor

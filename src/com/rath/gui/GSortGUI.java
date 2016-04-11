@@ -24,7 +24,9 @@ import javax.swing.SwingWorker;
 import javax.swing.SwingConstants;
 
 import com.rath.gui.SortingWindow;
+import com.rath.gui.OptionsGUI;
 import com.rath.elem.ArrayMemberList;
+import com.rath.sorts.RathSort;
 
 public class GSortGUI {
     
@@ -40,6 +42,7 @@ public class GSortGUI {
   private JPanel guiPanel;
   
   // Algorithm options panel
+  private OptionsGUI optionsPanelObj;
   private JPanel optionsPanel;
   
   // Label and selection dropdown box
@@ -208,11 +211,6 @@ public class GSortGUI {
           sortWin = new SortingWindow(width, height - topbarHeight, 0, desiredArraySize, distr, sortDelay);
           frame.add(sortWin, BorderLayout.NORTH);
           
-          // Create a new options panel (initially hidden)
-          optionsPanel = new OptionsGUI(GSortGUI.this, width, topbarHeight).getPanel();
-          optionsPanel.setVisible(false);
-          frame.add(optionsPanel);
-          
           // Validate and repaint
           frame.validate();
           sortWin.validate();
@@ -267,12 +265,20 @@ public class GSortGUI {
     guiPanel.add(spacer);
     
     //-------------------------------------------------------------------------------------------------------------------------
+    // Create a new options panel (initially hidden)
+    optionsPanelObj = new OptionsGUI(GSortGUI.this, width, topbarHeight);
+    optionsPanel = optionsPanelObj.getPanel();
+    optionsPanel.setVisible(false);
+    frame.add(optionsPanel);
+    
+    //-------------------------------------------------------------------------------------------------------------------------
     // Options button (grey out if no options for current algorithm)
     this.buttonOptions = new JButton("Options");
     this.buttonOptions.setToolTipText("Configuration options for the selected algorithm, if any.");
     this.buttonOptions.addActionListener(new ActionListener() {
       
       public void actionPerformed(ActionEvent e) {
+        reloadOptions();
         guiPanel.setVisible(false);
         optionsPanel.setVisible(true);
         guiPanel.revalidate();
@@ -284,6 +290,7 @@ public class GSortGUI {
     guiPanel.add(this.buttonOptions);
   }
   
+  //===========================================================================================================================
   /**
    * Reloads the sorting algorithm to invoke
    */
@@ -297,7 +304,16 @@ public class GSortGUI {
       e.printStackTrace();
     }
   }
-    
+  
+  /**
+   * Reloads options for the selected algorithm
+   */
+  private void reloadOptions() {
+    RathSort inst = (RathSort) sortInstance;
+    System.err.println("Options: " + inst.getOptions());
+    optionsPanelObj.addOptions(inst.getOptions());
+  }
+  
   /**
    * Performs the selected sort from JComboBox sortSelect.
    */
@@ -316,7 +332,6 @@ public class GSortGUI {
         protected Void doInBackground() throws Exception {
           Object sortInst = sortConstr.newInstance(memberList);
           Method sortMethod = sortClass.getMethod("sort");
-          System.err.println(sortMethod);
           System.out.println("Loaded successfully.");
           sortMethod.invoke(sortInst);
           return null;

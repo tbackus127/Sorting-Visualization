@@ -11,9 +11,9 @@ package com.rath.sorts;
 
 import com.rath.elem.ArrayMemberList;
 
-public class MergeSort {
+public class MergeSort extends RathSort {
   
-  private final ArrayMemberList array;
+  // private final ArrayMemberList array;
   private final int[] helperArray;
   
   /**
