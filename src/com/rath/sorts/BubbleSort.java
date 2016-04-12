@@ -65,7 +65,6 @@ public class BubbleSort extends RathSort {
       // To get an OptionComponent's value, use "opt.get(<Key>)" to access it from the map,
       //    and use val() if it is a JCheckBox (returns a boolean), or sel() to get the selected
       //    index (returns an int).
-      OptionComponent c = opt.get("smart");
       if(opt.get("smart").val()) {
         n--;
       }

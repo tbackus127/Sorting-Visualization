@@ -9,9 +9,14 @@
 
 package com.rath.sorts;
 
+import java.util.Random;
+
 import com.rath.elem.ArrayMemberList;
 
 public class QuickSort extends RathSort {
+  
+  private int pivotRule = 0;
+  private final Random rand;
   
   /**
    * Default constructor
@@ -20,8 +25,10 @@ public class QuickSort extends RathSort {
    */
 	public QuickSort(ArrayMemberList argArray) {
 		array = argArray;
-    optsString = new String[]{"pnts;sel;Pointer rule: |LR|LL"};
+    optsString = new String[]{"pnts;sel;Pointer rule: |LR|LL", "pivr;sel;Pivot rule: |First|Last|Middle|Random|Median of Three|Median of Five",
+                              "mthd;chk;Multithreaded? ", "tern;chk;Ternary? "};
     enableOptions();
+    rand = new Random();
 	}
 	
   /**
@@ -29,6 +36,8 @@ public class QuickSort extends RathSort {
    */
   public void sort() {
     super.sort();
+    System.err.println("Using pointer rule " + opt.get("pnts").sel());
+    pivotRule = opt.get("pivr").sel();
     quicksort(0, array.getSize() - 1);
 	}
   
@@ -58,6 +67,7 @@ public class QuickSort extends RathSort {
         last--;
       }
     }
+    
     return first;
   }
 }
