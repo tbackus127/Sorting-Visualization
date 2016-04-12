@@ -20,6 +20,8 @@ public class QuickSort extends RathSort {
    */
 	public QuickSort(ArrayMemberList argArray) {
 		array = argArray;
+    optsString = new String[]{"pnts;sel;Pointer rule: |LR|LL"};
+    enableOptions();
 	}
 	
   /**

@@ -52,12 +52,18 @@ public class OptionsGUI {
     
     if(!currentOpts.isEmpty()) {
       for(OptionComponent c : currentOpts) {
+        if(c.getLabel() != null) {
+          optionsPanel.remove(c.getLabel());
+        }
         optionsPanel.remove(c.getComponent());
       }
       currentOpts.clear();
     }
     
     for(OptionComponent cmp : opts) {
+      if(cmp.getLabel() != null) {
+        optionsPanel.add(cmp.getLabel());
+      }
       optionsPanel.add(cmp.getComponent());
       currentOpts.add(cmp);
     }
