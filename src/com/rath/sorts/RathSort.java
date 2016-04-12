@@ -59,6 +59,7 @@ public class RathSort {
   /**
    * Forcefully stops the sort, because SwingWorker.cancel() doesn't.
    */
+  @SuppressWarnings("deprecation")
   public void stop() {
     
     // Yes, I know Thread.stop() is deprecated and unsafe. However, it's the only way it'll actually stop.

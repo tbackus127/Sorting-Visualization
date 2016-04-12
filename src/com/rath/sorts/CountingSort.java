@@ -14,8 +14,6 @@ import java.util.Arrays;
 
 public class CountingSort extends RathSort {
   
-  // private final ArrayMemberList array;
-  
   /**
    * Default constructor
    * @param argArray a reference to the ArrayMemberList to be sorted
@@ -29,6 +27,7 @@ public class CountingSort extends RathSort {
    * Perform the sort.
    */
   public void sort() {
+    super.sort();
     try {
       countingSort();
     } catch (Exception e) {

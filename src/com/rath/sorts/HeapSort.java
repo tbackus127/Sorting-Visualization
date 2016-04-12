@@ -10,8 +10,6 @@
 
  public class HeapSort extends RathSort {
 
-   // private final ArrayMemberList array;
-
    /**
    * Default constructor
    * @param argArray a reference to the ArrayMemberList to be sorted
@@ -25,6 +23,7 @@
     * Preforms a HeapSort algorithm.
     */
    public void sort() {
+     super.sort();
      //Build the heap.
      createHeap();
      //Lowest value in the heap.

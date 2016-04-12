@@ -13,8 +13,6 @@ import com.rath.elem.ArrayMemberList;
 
 public class QuickSort extends RathSort {
   
-  // private final ArrayMemberList array;
-  
   /**
    * Default constructor
    * @param argArray a reference to the ArrayMemberList to be sorted
@@ -28,6 +26,7 @@ public class QuickSort extends RathSort {
    * Perform the sort.
    */
   public void sort() {
+    super.sort();
     quicksort(0, array.getSize() - 1);
 	}
   

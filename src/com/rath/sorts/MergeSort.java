@@ -13,7 +13,6 @@ import com.rath.elem.ArrayMemberList;
 
 public class MergeSort extends RathSort {
   
-  // private final ArrayMemberList array;
   private final int[] helperArray;
   
   /**
@@ -30,6 +29,7 @@ public class MergeSort extends RathSort {
    * Perform the sort.
    */
   public void sort() {
+    super.sort();
     mergeSort(0, array.getSize());
 	}
   

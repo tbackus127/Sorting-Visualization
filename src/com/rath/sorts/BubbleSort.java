@@ -30,7 +30,7 @@ public class BubbleSort extends RathSort {
     //      "sel": JComboBox
     //    Choices: A String delimited by vertical bars (|) with the first being its label. Each subsequent
     //      token will be a separate choice in the JComboBox
-    optsString = new String[]{"smart;chk;Smart iterations?", "test;sel;Label|Choice1|Choice2|Choice3"};
+    optsString = new String[]{"smart;chk;Smart iterations?"};
     enableOptions();
   }
 

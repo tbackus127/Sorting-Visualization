@@ -13,8 +13,6 @@ import com.rath.elem.ArrayMemberList;
 
 public class InsertionSort extends RathSort {
   
-  // private final ArrayMemberList array;
-  
   /**
    * Default constructor
    * @param argArray a reference to the ArrayMemberList to be sorted
@@ -28,6 +26,7 @@ public class InsertionSort extends RathSort {
    * Perform the sort.
    */
   public void sort() {
+    super.sort();
     
     // Iterate through the unsorted portion of the array.
     for(int i = 1; i < array.getSize(); i++) {

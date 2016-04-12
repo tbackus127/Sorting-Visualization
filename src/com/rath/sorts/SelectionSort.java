@@ -13,9 +13,6 @@ import com.rath.elem.ArrayMemberList;
 
 public class SelectionSort extends RathSort {
   
-  // private final ArrayMemberList array;
-  
-  
   /**
    * Default constructor
    * @param argArray a reference to the ArrayMemberList to be sorted
@@ -30,6 +27,7 @@ public class SelectionSort extends RathSort {
    */
   public void sort() {
 	
+    super.sort();
     // i = index to select for
 		for(int i = 0; i < array.getSize() - 1; i++) {
       

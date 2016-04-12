@@ -295,6 +295,7 @@ public class GSortGUI {
     });
     this.buttonOptions.setHorizontalAlignment(SwingConstants.RIGHT);
     guiPanel.add(this.buttonOptions);
+    reloadOptions();
   }
   
   //===========================================================================================================================
@@ -318,12 +319,15 @@ public class GSortGUI {
   private void reloadOptions() {
     RathSort inst = (RathSort) sortInstance;
     optMap = inst.getOptions();
-    ArrayList<OptionComponent> optsToSend = new ArrayList<OptionComponent>();
-    for(OptionComponent c : optMap.values()) {
-      System.err.println("GSortGUI.reload(): " + System.identityHashCode(c.getComponent()));
-      optsToSend.add(c);
+    if(optMap != null) {
+      ArrayList<OptionComponent> optsToSend = new ArrayList<OptionComponent>();
+      for(OptionComponent c : optMap.values()) {
+        System.err.println("GSortGUI.reload(): " + System.identityHashCode(c.getComponent()));
+        optsToSend.add(c);
+      }
+      
+      optionsPanelObj.addOptions(optsToSend);
     }
-    optionsPanelObj.addOptions(optsToSend);
   }
   
   /**
