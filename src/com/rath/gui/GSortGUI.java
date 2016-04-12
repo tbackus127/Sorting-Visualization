@@ -1,6 +1,8 @@
 package com.rath.gui;
 
 import java.util.Arrays;
+import java.util.TreeMap;
+import java.util.ArrayList;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -17,6 +19,7 @@ import java.lang.reflect.Method;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JComponent;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -88,6 +91,8 @@ public class GSortGUI {
   private Class<?> sortClass;
   private Constructor sortConstr;
   private Object sortInstance;
+  
+  private TreeMap<String, OptionComponent> optMap;
   
 	private int maxArraySize;
   
@@ -312,8 +317,13 @@ public class GSortGUI {
    */
   private void reloadOptions() {
     RathSort inst = (RathSort) sortInstance;
-    System.err.println("Options: " + Arrays.toString(inst.getOptions()));
-    optionsPanelObj.addOptions(inst.getOptions());
+    optMap = inst.getOptions();
+    ArrayList<OptionComponent> optsToSend = new ArrayList<OptionComponent>();
+    for(OptionComponent c : optMap.values()) {
+      System.err.println("GSortGUI.reload(): " + System.identityHashCode(c.getComponent()));
+      optsToSend.add(c);
+    }
+    optionsPanelObj.addOptions(optsToSend);
   }
   
   /**
@@ -332,10 +342,11 @@ public class GSortGUI {
         
         @Override
         protected Void doInBackground() throws Exception {
-          // Object sortInst = sortConstr.newInstance(memberList);
           sortInstance = sortConstr.newInstance(memberList);
           Method sortMethod = sortClass.getMethod("sort");
           System.out.println("Loaded successfully.");
+          RathSort inst = (RathSort) sortInstance;
+          inst.setOptions(optMap);
           sortMethod.invoke(sortInstance);
           return null;
         }

@@ -40,11 +40,12 @@ public class BubbleSort extends RathSort {
   */
   @Override
   public void sort() {
+    
+    // Call to enable stopping
     super.sort();
     
     int n = array.getSize();
     
-    System.err.println("Sel: " + opt.get("test").sel());
     //True is swap has been done in the most recent pass.
     boolean needSwap = true;
     while (needSwap) {
@@ -65,7 +66,6 @@ public class BubbleSort extends RathSort {
       //    and use val() if it is a JCheckBox (returns a boolean), or sel() to get the selected
       //    index (returns an int).
       OptionComponent c = opt.get("smart");
-      System.err.println(c);
       if(opt.get("smart").val()) {
         n--;
       }

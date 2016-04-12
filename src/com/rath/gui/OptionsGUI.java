@@ -1,6 +1,8 @@
 package com.rath.gui;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import java.awt.FlowLayout;
 import java.awt.event.*;
@@ -12,6 +14,7 @@ import javax.swing.JComponent;
 public class OptionsGUI {
   
   private final JPanel optionsPanel;
+  private HashSet<OptionComponent> currentOpts;
   
   /**
    * Default constructor
@@ -35,6 +38,8 @@ public class OptionsGUI {
     optionsPanel.add(buttonBack);
     //-------------------------------------------------------------------------------------------------------------------------
     
+    currentOpts = new HashSet<OptionComponent>();
+    
     System.err.println("Options GUI created.");
   }
   
@@ -42,14 +47,19 @@ public class OptionsGUI {
    * Adds the OptionComponents to the options panel
    * @param opts the array of OptionComponents to add
    */
-  public void addOptions(OptionComponent[] opts) {
+  public void addOptions(ArrayList<OptionComponent> opts) {
     System.err.println("OptionsGUI.addOptions()");
     
-    for(int i = 0; i < opts.length; i++) {
-      OptionComponent cmp = opts[i];
-      if(cmp.getLabel() != null)
-        optionsPanel.add(cmp.getLabel());
+    if(!currentOpts.isEmpty()) {
+      for(OptionComponent c : currentOpts) {
+        optionsPanel.remove(c.getComponent());
+      }
+      currentOpts.clear();
+    }
+    
+    for(OptionComponent cmp : opts) {
       optionsPanel.add(cmp.getComponent());
+      currentOpts.add(cmp);
     }
     
     optionsPanel.validate();

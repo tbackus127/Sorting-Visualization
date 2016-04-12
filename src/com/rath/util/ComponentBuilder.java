@@ -37,7 +37,7 @@ public class ComponentBuilder {
           throw new IllegalArgumentException("Invalid syntax");
       }
       
-      System.err.println("Built " + comp + " with key=" + key);
+      // System.err.println("Built " + comp + " with key=" + key);
       result.put(key, comp);
     }
     

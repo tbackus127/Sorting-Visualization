@@ -9,7 +9,9 @@ public class OptionComponent {
   
   private final String label;
   private final JLabel labelComp;
-  private final JComponent comp;
+  
+  private final JCheckBox chk;
+  private final JComboBox cmb;
   
   public OptionComponent(JComponent comp) {
     this(null, comp);
@@ -21,7 +23,17 @@ public class OptionComponent {
       this.labelComp = null;
     else
       this.labelComp = new JLabel(this.label);
-    this.comp = comp;
+    if(comp instanceof JCheckBox) {
+      chk = (JCheckBox)comp;
+      cmb = null;
+    } else if(comp instanceof JComboBox) {
+      cmb = (JComboBox)comp;
+      chk = null;
+    } else {
+      cmb = null;
+      chk = null;
+    }
+    
   }
   
   public JLabel getLabel() {
@@ -29,37 +41,25 @@ public class OptionComponent {
   }
   
   public JComponent getComponent() {
-    return this.comp;
+    if(chk == null)
+      return cmb;
+    return chk;
   }
   
   public boolean val() {
-    if(comp instanceof JCheckBox)
-      return ((JCheckBox)comp).isSelected();
-    throw new RuntimeException("val() called on non-JCheckBox component!");
+    return chk.isSelected();
   }
   
   public int sel() {
-    if(comp instanceof JComboBox)
-      return ((JComboBox)comp).getSelectedIndex();
-    throw new RuntimeException("sel() called on non-JComboBox component!");
+    return cmb.getSelectedIndex();
   }
   
   public String toString() {
-    return "[Opt:" + label + ":" + System.identityHashCode(comp) + "]";
+    String result = "[Opt:" + label + ":";
+    if(chk == null)
+      result += System.identityHashCode(cmb);
+    else
+      result += System.identityHashCode(chk);
+    return result;
   }
 }
-
-
-
-
-
-/*
-
-Only allowed:
-> Single checkboxes
-> Dropdown menus
-
-Use JComponent.isSelected() for true/false
-
-
-*/

@@ -2,6 +2,9 @@
 package com.rath.sorts;
 
 import java.util.TreeMap;
+import java.util.ArrayList;
+
+import javax.swing.JComponent;
 
 import com.rath.elem.ArrayMemberList;
 import com.rath.gui.OptionComponent;
@@ -25,15 +28,10 @@ public class RathSort {
   
   /**
    * Gets the components to add to the options GUI
-   * @return an array of OptionComponents
+   * @return the options map
    */
-  public OptionComponent[] getOptions() {
-    OptionComponent[] result = new OptionComponent[opt.size()];
-    int i = 0;
-    for(OptionComponent c : opt.values()) {
-      result[i++] = c;
-    }
-    return result;
+  public TreeMap<String, OptionComponent> getOptions() {
+    return opt;
   }
   
   /**
@@ -41,6 +39,14 @@ public class RathSort {
    */
   protected void enableOptions() {
     opt = ComponentBuilder.build(optsString);
+  }
+  
+  /**
+   * Re-sets the options before sorting (invoke would reset them)
+   * @param newOpts the opts to set the default ones to
+   */
+  public void setOptions(TreeMap<String, OptionComponent> newOpts) {
+    opt = newOpts;
   }
   
   /**
