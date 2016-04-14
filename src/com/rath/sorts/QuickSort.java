@@ -28,13 +28,13 @@ public class QuickSort extends RathSort {
    * @param argArray a reference to the ArrayMemberList to be sorted
    * All sorts must have a constructor Constructor(ArrayMemberList) to be considered valid.
    */
-	public QuickSort(ArrayMemberList argArray) {
-		array = argArray;
+  public QuickSort(ArrayMemberList argArray) {
+    array = argArray;
     optsString = new String[]{"pnts;sel;Pointer rule: |Left+Right|Left x2|Dual Pivot", "pivr;sel;Pivot rule: |First|Last|Middle|Random|Median of Three|Median of 2+Rand",
                               "mthd;chk;Multithreaded? ", "tern;chk;Ternary? "};
     enableOptions();
     rand = new Random();
-	}
+  }
 	
   /**
    * Perform the sort.
@@ -62,7 +62,7 @@ public class QuickSort extends RathSort {
           quicksortLR(0, array.getSize() - 1);
       }
     }
-	}
+  }
   
   /**
    * Selects the pivot
@@ -179,19 +179,3 @@ public class QuickSort extends RathSort {
     return index;
   }
 }
-
-/*
-
-Options:
-- Checkbox: Multithreaded
-- Dropdown: Pivot rule:
-    First
-    Last
-    Middle
-    Random
-    Median of Three
-    Median of Five
-- Checkbox: Ternary Mode
-- Checkbox: Dual-pivot?
-
-*/
