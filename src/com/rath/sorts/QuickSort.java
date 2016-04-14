@@ -12,6 +12,8 @@ package com.rath.sorts;
 import java.util.Random;
 
 import com.rath.elem.ArrayMemberList;
+import com.rath.sortext.RathSort;
+import com.rath.sortext.QuickSortThread;
 
 public class QuickSort extends RathSort {
   
@@ -28,7 +30,7 @@ public class QuickSort extends RathSort {
    */
 	public QuickSort(ArrayMemberList argArray) {
 		array = argArray;
-    optsString = new String[]{"pnts;sel;Pointer rule: |Left+Right|Left x2|Dual Pivot", "pivr;sel;Pivot rule: |First|Last|Middle|Random|Median of Three",
+    optsString = new String[]{"pnts;sel;Pointer rule: |Left+Right|Left x2|Dual Pivot", "pivr;sel;Pivot rule: |First|Last|Middle|Random|Median of Three|Median of 2+Rand",
                               "mthd;chk;Multithreaded? ", "tern;chk;Ternary? "};
     enableOptions();
     rand = new Random();
@@ -44,14 +46,21 @@ public class QuickSort extends RathSort {
     multithreaded = opt.get("mthd").val();
     ternaryMode = opt.get("tern").val();
     
-    switch(pointerRule) {
-      
-      // Left x2
-      case 1:
-        quicksortLL(0, array.getSize() - 1);
-        break;
-      default:
-        quicksortLR(0, array.getSize() - 1);
+    if(multithreaded) {
+      (new Thread(new QuickSortThread(array, this, 0, array.getSize() - 1))).start();
+      try {
+        Thread.sleep(100000);
+      } catch (InterruptedException e) {}
+    } else {
+      switch(pointerRule) {
+        
+        // Left x2
+        case 1:
+          quicksortLL(0, array.getSize() - 1);
+          break;
+        default:
+          quicksortLR(0, array.getSize() - 1);
+      }
     }
 	}
   
@@ -61,7 +70,7 @@ public class QuickSort extends RathSort {
    * @param right the rightmost index
    * @return the pivot index as an int
    */
-  private int getPivot(int left, int right) {
+  public int getPivot(int left, int right) {
     switch(pivotRule) {
       // Last
       case 1:
@@ -75,6 +84,8 @@ public class QuickSort extends RathSort {
       // Med3
       case 4:
         int mid = (left + right) / 2;
+        
+        // Sort the three pointers
         if(array.compare(right, left) < 0)
           array.swap(left, right);
         if(array.compare(mid, left) < 0)
@@ -82,6 +93,22 @@ public class QuickSort extends RathSort {
         if(array.compare(right, mid) < 0)
           array.swap(right, mid);
         return mid;
+      
+      // My hybrid pivot choice
+      case 5:
+      
+        // Choose a random index instead of the middle
+        int rnd = rand.nextInt(right - left) + left;
+        
+        // Sort the three pointers
+        if(array.compare(right, left) < 0)
+          array.swap(left, right);
+        if(array.compare(rnd, left) < 0)
+          array.swap(rnd, left);
+        if(array.compare(right, rnd) < 0)
+          array.swap(right, rnd);
+        return rnd;
+        
       default:
         return left;
     }

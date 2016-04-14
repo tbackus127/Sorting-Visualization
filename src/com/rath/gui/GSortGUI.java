@@ -31,7 +31,7 @@ import javax.swing.SwingConstants;
 import com.rath.gui.SortingWindow;
 import com.rath.gui.OptionsGUI;
 import com.rath.elem.ArrayMemberList;
-import com.rath.sorts.RathSort;
+import com.rath.sortext.RathSort;
 
 public class GSortGUI {
     

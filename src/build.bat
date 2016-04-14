@@ -6,4 +6,5 @@ javac com/rath/gui/*.java
 javac com/rath/util/*.java
 echo "Compiling sorts..."
 javac com/rath/sorts/*.java
+javac com/rath/sortext/*.java
 pause

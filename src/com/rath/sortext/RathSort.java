@@ -1,5 +1,5 @@
 
-package com.rath.sorts;
+package com.rath.sortext;
 
 import java.util.TreeMap;
 import java.util.ArrayList;
