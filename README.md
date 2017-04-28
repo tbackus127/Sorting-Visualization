@@ -1,7 +1,7 @@
 # Tim's Sorting Algorithm Visualizer
 A visual representation of various sorting algorithms. Inspired by Sound of Sorting by Timo Bingmann.
 
-#####*WARNING: If you have epilepsy, I'd advise you not to run this visualization; it's very flashy.*
+#### *WARNING: If you have epilepsy, I'd advise you not to run this visualization; it's very flashy.*
 
 #### Features
 + Modular algorithms: Any pre-compiled .class files can be dragged and dropped into the /sorts directory and are automatically loaded.
