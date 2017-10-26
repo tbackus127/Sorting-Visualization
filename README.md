@@ -15,10 +15,13 @@ A visual representation of various sorting algorithms. Inspired by Sound of Sort
 + Algorithm step button
 
 #### How to use
+
+*Note: This program still has quite a few bugs I need to work out.*
+
 1. Make sure you have the latest version of Java installed and that both the 'java' and 'javac' commands work on your command line.
 2. Clone this repository.
 3. Run build.bat (Windows), or build.sh (Linux) to compile.
-4. Run run.bat (Windows), or run.sh (Linus) to launch the app.
+4. Run run.bat (Windows), or run.sh (Linux) to launch the app.
 5. Select the algorithm to simulate from the first dropdown menu.
 6. Enter an array size (defaults to 48) to perform the algorithm on (8 - 1264, inclusive).
 7. Select an array distribution (how it's layed out).
